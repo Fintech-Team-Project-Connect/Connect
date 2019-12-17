@@ -217,7 +217,7 @@
 
 				<div class="dash-balance">
 					<div class="dash-content relative">
-						<h3 class="w-text">uId님이 참여 중인 스터디 목록</h3>
+						<h3 class="w-text" id="uId"></h3>
 						<div class="notification">
 							<a href=""><i class="fa fa-plus"></i></a>
 						</div>
@@ -284,6 +284,10 @@
 
     <script>
         var jwtToken = sessionStorage.getItem('jwtToken');
+        var userId = sessionStorage.getItem('userId');
+
+        $("#uId").html(userId + "님이 참여 중인 스터디 목록");
+
         function fetchStudyList() {
             $.ajax({
                 url:'http://localhost:3000/studyList',
@@ -294,7 +298,7 @@
                 success:function(data) {
 
                     console.log('\n * data 확인 -> ');
-                    console.log(data);
+                    console.log(userId);
                     
                     for(var i = 0; i < data.length; i++) {
 
@@ -309,7 +313,7 @@
 										'</div>'+
 
                                         '<div class="ml-auto align-self-end">' + 
-                                            '<a href="/studyMain">바로가기</a>' +
+                                            '<a href="/studyMain?sName=' + data[i].sName + '">바로가기</a>' +
                                             /*
 											'<a href="/balance?fin_use_num=' + data[i].fintech_use_num + '">잔액조회</a>' + 
                                             '<a href="/qrcode?fin_use_num=' + data[i].fintech_use_num + '">QR생성</a>' + 

@@ -44,13 +44,13 @@ app.get('/login', function (req, res) {
     res.render('login')
 })
 
-// * 메인 창
+// * 스터디 목록 창
 app.get('/main', function (req, res) {
     res.render('main')
     //res.render('main_bak')
 })
 
-// * 스터디 모임 클릭 시, 메인 창
+// * 스터디 상세 창
 app.get('/studyMain', function (req, res) {
     res.render('studyMain')
 })
@@ -166,7 +166,7 @@ app.post('/login', function(req, res) {
                     },
                     function(err, token) {
                         console.log('\n* 로그인 성공\n* 토큰 값 -> ')
-                        res.json(token)
+                        res.json(token);
                     }
                 )
             }
@@ -177,10 +177,23 @@ app.post('/login', function(req, res) {
     });
 })
 
-// * 참여 중인 스터디 목록
+// * 스터디 목록
 app.post('/studyList', auth, function(req, res) {
 
-    console.log('\n* /studyList');
+    var uId = req.decoded.uId;
+    var sql = 'SELECT * FROM manage JOIN study ON manage.study_sId = study.sId WHERE manage.user_uId = ?;'
+
+    connection.query(sql, [uId], function(error, results, fields) {
+        if (error) throw error;
+        console.log('\n* 스터디 목록 results -> ')
+        console.log(results);
+        res.send(results);
+    });
+})
+
+// * 스터디 상세
+app.post('/studyDetail', auth, function(req, res) {
+
     var uId = req.decoded.uId;
     var sql = 'SELECT * FROM manage JOIN study ON manage.study_sId = study.sId WHERE manage.user_uId = ?;'
 
