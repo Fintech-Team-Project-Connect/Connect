@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<body>
+    <div id="accessToken"><%=data.access_token%></div>
+    <div id="refreshToken"><%=data.refresh_token%></div>
+    <div id="userSeqNo"><%=data.user_seq_no%></div>
+</body>
+    <!-- 새로운 창을 열어서 accessToken, refreshToken, userSeqNo 값 확인하게끔 -->
+    <script>
+        opener.document.getElementById("accessToken").value =
+            document.getElementById("accessToken").textContent;
+
+        opener.document.getElementById("refreshToken").value =
+            document.getElementById("refreshToken").textContent;
+            
+        opener.document.getElementById("userSeqNo").value =
+            document.getElementById("userSeqNo").textContent;
+    </script>
+</html>
