@@ -47,6 +47,12 @@ app.get('/login', function (req, res) {
 // * 메인 창
 app.get('/main', function (req, res) {
     res.render('main')
+    //res.render('main_bak')
+})
+
+// * 스터디 모임 클릭 시, 메인 창
+app.get('/studyMain', function (req, res) {
+    res.render('studyMain')
 })
 
 // * 잔액조회 창
@@ -150,7 +156,7 @@ app.post('/login', function(req, res) {
                 jwt.sign(
                     {
                         uId : results[0].uId,
-                        uPassword : results[0].uPassword
+                        uPassword : results[0].uPassword,
                     },
                     tokenKey,
                     {
@@ -158,8 +164,8 @@ app.post('/login', function(req, res) {
                         issuer : 'fintech.admin',
                         subject : 'user.login.info'
                     },
-                    function(err, token){
-                        console.log('\n* 로그인 성공\n* 토큰 값 -> ' + token)
+                    function(err, token) {
+                        console.log('\n* 로그인 성공\n* 토큰 값 -> ')
                         res.json(token)
                     }
                 )
@@ -168,6 +174,21 @@ app.post('/login', function(req, res) {
                 console.log('\n* 등록정보가 없습니다.');
             }
         }
+    });
+})
+
+// * 참여 중인 스터디 목록
+app.post('/studyList', auth, function(req, res) {
+
+    console.log('\n* /studyList');
+    var uId = req.decoded.uId;
+    var sql = 'SELECT * FROM manage JOIN study ON manage.study_sId = study.sId WHERE manage.user_uId = ?;'
+
+    connection.query(sql, [uId], function(error, results, fields) {
+        if (error) throw error;
+        console.log('\n* 스터디 목록 results -> ')
+        console.log(results);
+        res.send(results);
     });
 })
 

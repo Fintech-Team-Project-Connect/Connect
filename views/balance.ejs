@@ -315,9 +315,9 @@
                 data : {
 					fin_use_num : qs.fin_use_num
                 },
-                success:function(data){
+                success:function(data) {
 					$("#content-body").append(data.res_list)
-                    console.log('\n* data -> ' + data);
+                    console.log('\n* fetchList() data -> ' + data);
                 }
             }); 
 		}

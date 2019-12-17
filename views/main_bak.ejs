@@ -217,20 +217,15 @@
 
 				<div class="dash-balance">
 					<div class="dash-content relative">
-						<h3 class="w-text">uId님이 참여 중인 스터디 목록</h3>
+						<h3 class="w-text">Dashboard</h3>
 						<div class="notification">
 							<a href=""><i class="fa fa-plus"></i></a>
 						</div>
 					</div>
 				</div>
 
-                <div class="form-divider"></div>
-                <div class="form-divider"></div>
-                <div class="form-divider"></div>
-                <div class="form-divider"></div>
-                <div class="form-divider"></div>
-
-				<section class="bal-section container" id="cardList"></section>
+				<section class="bal-section container" id="cardList">
+				</section>
 
 				<footer>
 					<div class="container">
@@ -283,49 +278,45 @@
 	<script src="js/global.script.js"></script>
 
     <script>
-        var jwtToken = sessionStorage.getItem('jwtToken');
-        function fetchStudyList() {
-            $.ajax({
-                url:'http://localhost:3000/studyList',
+        var jwtToken = sessionStorage.getItem('jwtToken')
+        function fetchUserData() {
+			$.ajax({
+				url:'http://localhost:3000/userData',
                 type : 'POST',
                 headers : {
                     'x-access-token' : jwtToken
                 },
                 success:function(data) {
+					console.log('\n * data.res_list 확인 -> ');
+					console.log(data);
+					
+					// 2.2.1. 사용자정보조회 API의 응답 메세지 명세에, res_list(등록된 계좌 목록)라고 지정되어 있음
+                    for(var i=0; i < data.res_list.length; i++) {
 
-                    console.log('\n * data 확인 -> ');
-                    console.log(data);
-                    
-                    for(var i = 0; i < data.length; i++) {
-
-                        $("#cardList").append(                            
+						$("#cardList").append(
                             '<div class="balance-card mb-15">' +
 						        '<div class="d-flex align-items-center">' +
 									'<div class="d-flex flex-grow">' +
 										
                                     	'<div class="mr-auto">' +
-                                            '<h1 class="b-val">' + data[i].sName + '</h1>' + 
-                                    		'<p class="g-text mb-10">' + '스터디 일시 : ' + data[i].sDate + '</p>' + 
+                                            '<h1 class="b-val">' + data.res_list[i].account_alias + '</h1>' + 
+                                    		'<p class="g-text mb-10">' + data.res_list[i].fintech_use_num + '</p>' + 
 										'</div>'+
 
-                                        '<div class="ml-auto align-self-end">' + 
-                                            '<a href="/studyMain">바로가기</a>' +
-                                            /*
-											'<a href="/balance?fin_use_num=' + data[i].fintech_use_num + '">잔액조회</a>' + 
-                                            '<a href="/qrcode?fin_use_num=' + data[i].fintech_use_num + '">QR생성</a>' + 
-                                            */
+                                    	'<div class="ml-auto align-self-end">' + 
+											'<a href="/balance?fin_use_num=' + data.res_list[i].fintech_use_num + '">잔액조회</a>' + 
+											'<a href="/qrcode?fin_use_num=' + data.res_list[i].fintech_use_num + '">QR생성</a>' + 
 										'</div>'+
-                                        
-                                    '</div>'+
-								'</div>'+
-                            '</div>'
-                        )                        
-                    }
+										
+									'</div>'+
+									'</div>'+
+							'</div>'
+                        )
+                    }    
                 }
             })
         }
-
-        fetchStudyList();
+		fetchUserData();
     </script>
 </body>
 </html>
