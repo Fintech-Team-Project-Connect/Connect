@@ -1,6 +1,7 @@
 // ret, var, const.. 찾아볼 것
 var request = require('request');
 var express = require("express");
+var cron = require('node-cron');
 
 var jwt = require('jsonwebtoken');
 var tokenKey = "fintech_tokenKey";
@@ -389,7 +390,7 @@ app.post('/withdraw', auth, function(req, res) {
             },
         }
         request(option, function (error, response, body) {
-            console.log('\* 출금이체 body -> ')
+            console.log('\n* 출금이체 body -> ')
             console.log(body);
 
             var resultObject = body;
@@ -402,6 +403,74 @@ app.post('/withdraw', auth, function(req, res) {
         });
     });    
 })
+
+// * 2.5.2. 입금이체 API
+app.post('/deposit', auth, function(req, res) {
+
+    // 은행거래고유번호 자동으로 생성되게끔
+    var countNum = Math.floor(Math.random() * 1000000000) + 1;
+    var bankTranId = "T991599850U" + countNum;
+    
+    var uId = req.decoded.uId;
+    var finUseNum = req.body.fin_use_num;
+   
+    var accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJUOTkxNTk5ODUwIiwic2NvcGUiOlsib29iIl0sImlzcyI6Imh0dHBzOi8vd3d3Lm9wZW5iYW5raW5nLm9yLmtyIiwiZXhwIjoxNTgzOTg5Mzc4LCJqdGkiOiJiMWQ0MDNkYS1kMTZlLTQ1ZDYtOTM0OC1mMjRmYTgxNmIwNDUifQ.WXaGocfB_wbvBZ2xs4HlSioXtyUBoX4L1iVeFprqRQU"
+    var sql = 'SELECT * FROM user WHERE uId = ?'
+
+    connection.query(sql, [uId], function(error, results, fields) {
+        if (error) throw error;
+        
+        var option = { 
+            method: 'POST',
+            url: 'https://testapi.openbanking.or.kr/v2.0/transfer/deposit/fin_num',
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            json :
+            {
+                "cntr_account_type" : "N",
+                "cntr_account_num" : "2222222222",
+                "wd_pass_phrase" : "NONE",
+                "wd_print_content" : "스터디비용출금",
+                "name_check_option" : "on",
+                "tran_dtime" : "20191218135100",
+                "req_cnt" : "1",
+                "req_list" :
+                [
+                    {
+                        "tran_no" : "1",
+                        "bank_tran_id": bankTranId,
+                        "fintech_use_num": "199159985057870944512374",
+                        "print_content": "스터디비용입금",
+                        "tran_amt": "15000",
+                        "req_client_name": "서용진",
+                        "req_client_bank_code" : "097",
+                        "req_client_account_num" : "2222222222",
+                        "req_client_num": "2222222222",
+                        "transfer_purpose": "TR"
+                    }
+                ]
+            },
+        }
+        request(option, function (error, response, body) {
+            console.log('\n* 입금이체 body -> ')
+            console.log(body);
+
+            var resultObject = body;
+            if(resultObject.rsp_code == "A0000") { // 입금이체가 성공할 경우
+                res.json(1);
+            } 
+            else {
+                res.json(resultObject.rsp_code)
+            }
+        });
+    });    
+})
+
+// * 크론 Job 스케줄러(일정 시간마다 반복되는 작업 자동화)
+cron.schedule('*/10 * * * * *', () => {
+    console.log('info', 'running a task every minute / ' + new Date());
+});
 
 app.listen(port);
 console.log("Listening on port ", port);

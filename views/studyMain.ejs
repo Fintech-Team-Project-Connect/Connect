@@ -487,7 +487,7 @@
                     $("#study-title").html(data[i].sName + " 스터디");
                     $("#sDate").text(data[i].sDate);
                     $("#cost").html(data[i].cost + "원");
-                    $("#cafeTrans").html("스터디일 기준, " + data[i].cafeTrans + "일 전에 " + data[i].cName + "로 입금됩니다.");
+                    //$("#cafeTrans").html("스터디일 기준, " + data[i].cafeTrans + "일 전에 " + data[i].cName + "로 입금됩니다.");
                     //$("#indiTrans").html("스터디일 기준, " + data[i].indiTrans + "일 전에 스터디원의 계좌로부터 출금됩니다.");
                 
                     // * 출금이체(스터디원1 ==> 우리App) 기능이 발생하는 function
@@ -504,17 +504,35 @@
                             }
                         }); 
                     }
-                    
+
+                    // * 입금이체(스터디원1 ==> 우리App) 기능이 발생하는 function
+                    function fetchDeposit() {
+                        $.ajax({
+                            url:'http://localhost:3000/deposit',
+                            type : 'POST',
+                            headers : {
+                                'x-access-token' : jwtToken
+                            },
+                            success:function(data) {
+                                if(data == 1)
+                                    $("#cafeTrans").text("스터디카페의 계좌로 입금이 완료되었습니다.")
+                            }
+                        }); 
+                    }
+
                     if sys의 날짜 => (data[i].sDate - data[i].indiTrans)
                     {
                         fetchWithdraw();
+                        fetchDeposit();
                         console.log('\n* data[i].sDate - data[i].indiTrans -> ');
                         console.log(data[i].sDate - data[i].indiTrans);
                     }
                     else
                     {
                         $("#indiTrans").html("스터디일 기준, " + data[i].indiTrans + "일 전에 스터디원의 계좌로부터 출금됩니다.");
+                        $("#cafeTrans").html("스터디일 기준, " + data[i].cafeTrans + "일 전에 " + data[i].cName + "로 입금됩니다.");
                     }
+
                 }
             }); 
         }
