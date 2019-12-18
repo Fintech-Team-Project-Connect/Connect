@@ -479,7 +479,7 @@
                     console.log('\n * data 확인(studyMain.ejs) -> ');
                     console.log(data);
                     
-                    var i = qs.sId;
+                    var i = qs.sId - 1;
                     $("#study-title").html(data[i].sName + " 스터디");
                     $("#sDate").text(data[i].sDate);
                     $("#cost").html(data[i].cost + "원");
