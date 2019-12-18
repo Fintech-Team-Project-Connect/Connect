@@ -320,79 +320,99 @@
 
                 <section class="container" heignt=10px>
                     <div class="resources-card-wrapper mt-15"  >
-                    <a href="buy-sell.html" class="buy-card mr-10">
+                        <a href="buy-sell.html" class="buy-card mr-10">
                             <div class="flex-column flex-md-row">
                                 <img src="img/content/p1.png"  alt="">
                                 <h4>스터디원 추가 +</h4>
                                 <p class="g-text mb-0 font-weight-medium">클릭하면 스터디원 추가 </p>
                             </div>
-                        </a>
-                        
-                </div>
+                        </a>                        
+                    </div>
                 </section>
-
-                
+               
                 <section class="container">
-                <h4 class="title-main">지정된 출금일(자동)</h4>
-                <ul class="transaction-list list-unstyled">
-                    <li>
-                        <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                <img class="img-xs" src="img/content/coin1.png" alt="coin image">
-                                <div class="ml-10">
-                            <h4 class="coin-name">12월 27일 오후 1시</h4>
-                
-                                    <small class="text-muted">08-24 <span class="ml-10">20.04PM</span></small>
+                    <h4 class="title-main">스터디 날짜 및 시간</h4>
+                        <ul class="transaction-list list-unstyled">
+                            <li>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs" src="img/content/coin1.png" alt="coin image">
+                                        <div class="ml-10">
+                                            <h4 class="coin-name" id="sDate"></h4>                
+                                            <!-- 
+                                            <small class="text-muted">아무값<span class="ml-10">아무값</span></small>
+                                            -->
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href = "change_datetime.html">
+                                            <small class="d-block mb-0 txt-green">날짜 및 시간 변경</small>
+                                            <small class="text-muted d-block"></small>
+                                        </a>
+                                    </div>
                                 </div>
+                            </li>
+                        </ul>
+                    <h4 class="title-main">스터디 비용(1인당)</h4>
+                        <ul class="transaction-list list-unstyled">
+                            <li>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs" src="img/content/coin2.png" alt="coin image">
+                                        <div class="ml-10">
+                                            <h4 class="coin-name" id="cost"></h4>
+                                            <!--
+                                            <small class="text-muted">아무값<span class="ml-10">아무값</span></small>
+                                            -->
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href = "change_money.html">
+                                            <small class="d-block mb-0 txt-green">금액변경</small>
+                                            <small class="text-muted d-block"></small>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div>
-                            <a href = "change_datetime.html">
-                                <small class="d-block mb-0 txt-green">날짜 및 시간 변경</small>
-                            <small class="text-muted d-block"></small>
-                            </a>
+                            </li>
+                        </ul>
+                    <h4 class="title-main">스터디카페에 보낼 날짜</h4>
+                        <ul class="transaction-list list-unstyled">
+                            <li>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs" src="img/content/coin1.png" alt="coin image">
+                                        <div class="ml-10">
+                                            <h4 class="coin-name" id="cafeTrans"></h4>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href = "change_datetime.html">
+                                            <small class="d-block mb-0 txt-green">계좌변경</small>
+                                            <small class="text-muted d-block"></small>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                    </li>
-                </ul>
-                <h4 class="title-main">출금금액</h4>
-                <ul class="transaction-list list-unstyled">
-                    <li>
-                        <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                <img class="img-xs" src="img/content/coin2.png" alt="coin image">
-                                <div class="ml-10">
-                                    <h4 class="coin-name">6,000</h4>
-                                    <small class="text-muted">12-27 <span class="ml-10">13.00PM</span></small>
+                            </li>
+                        </ul>
+                    <h4 class="title-main">스터디원으로부터 받을 날짜</h4>
+                        <ul class="transaction-list list-unstyled">
+                            <li>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs" src="img/content/coin1.png" alt="coin image">
+                                        <div class="ml-10">
+                                            <h4 class="coin-name" id="indiTrans"></h4>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href = "change_datetime.html">
+                                            <small class="d-block mb-0 txt-green">계좌변경</small>
+                                            <small class="text-muted d-block"></small>
+                                        </a>
+                                    </div>
                                 </div>
-                                </div>
-                                <div>
-                            <a href = "change_money.html">
-                                <small class="d-block mb-0 txt-green">금액변경</small>
-                            <small class="text-muted d-block"></small>
-                            </a>
-                                </div>
-                            </div>
-                    </li>
-                </ul>
-                <h4 class="title-main">출금계좌</h4>
-                <ul class="transaction-list list-unstyled">
-                    <li>
-                        <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                <img class="img-xs" src="img/content/coin1.png" alt="coin image">
-                                <div class="ml-10">
-                                    <h4 class="coin-name">하나 166-xxxxx-xxxxx</h4>
-                                </div>
-                                </div>
-                                <div>
-                            <a href = "change_datetime.html">
-                                <small class="d-block mb-0 txt-green">계좌변경</small>
-                            <small class="text-muted d-block"></small>
-                            </a>
-                                </div>
-                            </div>
-                    </li>
-                </ul>
+                            </li>
+                        </ul>
                 </section>
 
                 <footer>
@@ -446,26 +466,29 @@
 		}
         var qs = getQueryStringObject();
         var jwtToken = sessionStorage.getItem('jwtToken');
-        console.log('\n* qs.sName -> ' + qs.sName);
-
-        $("#study-title").html(qs.sName + " 스터디");
     
-        function fetchStudyDetail() {
+        function fetchStudyList() {
 			$.ajax({
-                url:'http://localhost:3000/studyDetail',
+                url:'http://localhost:3000/studyList',
                 type : 'POST',
                 headers : {
-					'x-access-token' : jwtToken // 로그인이 필요한 기능이므로..?
+					'x-access-token' : jwtToken
                 },
-                data : {
-                    sName : qs.sName
-                },
-                success:function(data){
-                    $("#balanceAmt").text(data);
+                success:function(data) {
+
+                    console.log('\n * data 확인(studyMain.ejs) -> ');
+                    console.log(data);
+                    
+                    var i = qs.sId;
+                    $("#study-title").html(data[i].sName + " 스터디");
+                    $("#sDate").text(data[i].sDate);
+                    $("#cost").html(data[i].cost + "원");
+                    $("#cafeTrans").html("스터디일 기준, " + data[i].cafeTrans + "일 전에 스터디 카페로 이체됩니다.");
+                    $("#indiTrans").html("스터디일 기준, " + data[i].indiTrans + "일 전에 스터디원의 계좌로부터 출금됩니다.");
                 }
             }); 
         }
-        fetchStudyDetail();
+        fetchStudyList();
 </script>
 </body>
 </html>

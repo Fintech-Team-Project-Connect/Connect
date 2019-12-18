@@ -297,7 +297,7 @@
                 },
                 success:function(data) {
 
-                    console.log('\n * data 확인 -> ');
+                    console.log('\n * data 확인(main.ejs) -> ');
                     console.log(userId);
                     
                     for(var i = 0; i < data.length; i++) {
@@ -313,7 +313,7 @@
 										'</div>'+
 
                                         '<div class="ml-auto align-self-end">' + 
-                                            '<a href="/studyMain?sName=' + data[i].sName + '">바로가기</a>' +
+                                            '<a href="/studyMain?sId=' + data[i].sId + '">바로가기</a>' +
                                             /*
 											'<a href="/balance?fin_use_num=' + data[i].fintech_use_num + '">잔액조회</a>' + 
                                             '<a href="/qrcode?fin_use_num=' + data[i].fintech_use_num + '">QR생성</a>' + 

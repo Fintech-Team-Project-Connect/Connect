@@ -181,32 +181,38 @@ app.post('/login', function(req, res) {
 app.post('/studyList', auth, function(req, res) {
 
     var uId = req.decoded.uId;
-    var sql = 'SELECT * FROM manage JOIN study ON manage.study_sId = study.sId WHERE manage.user_uId = ?;'
+    var sql_1 = 'SELECT * FROM manage JOIN study ON manage.study_sId = study.sId WHERE manage.user_uId = ?;'
+    var sql_2 = 'SELECT * FROM cafe JOIN study ON cafe.cAccount = study.cafe_cAccount WHERE study.cafe_cAccount in '
 
-    connection.query(sql, [uId], function(error, results, fields) {
+    connection.query(sql_1, [uId], function(error, results_1, fields) {
         if (error) throw error;
-        console.log('\n* 스터디 목록 results -> ')
-        console.log(results);
-        res.send(results);
-    });
-})
+        console.log('\n* sql_1 results_1 -> ')
+        console.log(results_1);
 
-// * 스터디 상세
-app.post('/studyDetail', auth, function(req, res) {
+        // sql_2은 in 구문을 사용
+        var inSQL = "";
+        for(var i = 0; i < results_1.length; i++) {
+            inSQL = inSQL + '\'' + results_1[i].cafe_cAccount + '\''
 
-    var uId = req.decoded.uId;
-    var sql = 'SELECT * FROM manage JOIN study ON manage.study_sId = study.sId WHERE manage.user_uId = ?;'
+            if(i != results_1.length - 1) {
+               inSQL = inSQL + ','
+            }
+        }
+        console.error('\n* inSQL -> ' + inSQL);
+        var resultSQL = '(' + inSQL + ')';
+        console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
 
-    connection.query(sql, [uId], function(error, results, fields) {
-        if (error) throw error;
-        console.log('\n* 스터디 목록 results -> ')
-        console.log(results);
-        res.send(results);
+        connection.query(sql_2 + resultSQL, [], function(error, results_2, fields) {
+            if (error) throw error;
+            console.log('\n* sql_2 results_2 -> ')
+            console.log(results_2);
+            res.send(results_2);
+        });  
     });
 })
 
 // * 2.2.1. 사용자정보조회 API
-app.post('/userData', auth, function(req, res){
+app.post('/userData', auth, function(req, res) {
 
     var uId = req.decoded.uId
     console.log('\n* req.decoded 확인 -> ');
