@@ -45,19 +45,19 @@ app.get('/login', function (req, res) {
     res.render('login')
 })
 
-// * 
+// * 스터디 개설자/참여자 선택 창
 app.get('/intro', function (req, res) {
     res.render('intro')
 })
 
-// * 
-app.get('/join', function (req, res) {
-    res.render('join')
+// * 스터디 개설자 창
+app.get('/createStudy', function (req, res) {
+    res.render('createStudy')
 })
 
-// * 
-app.get('/studyInfo', function (req, res) {
-    res.render('studyInfo')
+// * 스터디 참여자 창
+app.get('/join', function (req, res) {
+    res.render('join')
 })
 
 // * 스터디 목록 창
@@ -71,29 +71,9 @@ app.get('/studyMain', function (req, res) {
     res.render('studyMain')
 })
 
-// * 잔액조회 창
-app.get('/balance', function (req, res) {
-    res.render('balance')
-})
-
-// * 모임 생성 창
-app.get('/createStudy', function (req, res) {
-    res.render('createStudy')
-})
-
 // * 스터디원 추가 창
 app.get('/addUser', function (req, res) {
     res.render('addUser')
-})
-
-// * QR코드 창
-app.get('/qrCode', function(req, res) {
-    res.render('qrCode');
-})
-
-// * QR코드 리더기
-app.get('/qrReader', function(req, res) {
-    res.render('qrReader');
 })
 
 // * jwt 토큰 인증 모듈
@@ -477,14 +457,7 @@ app.post('/deposit', auth, function(req, res) {
     });    
 })
 
-<<<<<<< HEAD
-// * 크론 Job 스케줄러(일정 시간마다 반복되는 작업 자동화)
-cron.schedule('*/10 * * * * *', () => {
-    console.log('info', 'running a task every minute / ' + new Date());
-});
-=======
 // * 스터디 개설
-
 var arr = [];
 var i = 0;
 app.post('/addUser', auth, function(req, res) {
@@ -496,11 +469,11 @@ app.post('/addUser', auth, function(req, res) {
     console.log('\n* 검색한 아이디 확인(in Server) -> \n- id : ' + id);
 
     connection.query(sql, [id], function(error, results, fields) {
-         if (error) throw error;
+        if (error) throw error;
         if(results.length < 1) {
             console.log('\n* 사용자가 없습니다.');
             //res.json('검색된 사용자 없음');
-            }
+        }
         else {
             arr[i] = id;
             console.log(id + '를 담았습니다.')
@@ -527,23 +500,24 @@ app.post('/addUser', auth, function(req, res) {
             sId = results.insertId;
     
             var sql2 = "INSERT INTO manage(user_uId, study_sId, manager) VALUES( ?, ?, ?);"
+            
             connection.query(sql2, [uId, sId, 1], function (error, results, fields) {
-    
                 if (error) 
                     console.log('\n * error -> ' + error);       
                     res.json('새로운 모임 성공'); // '새로운 모임 성공' -> 이 문자는 postman으로 날렸을 때 확인 가능
+                    
                     for (var a = 0; a < arr.length; a++) {
                         var sql3 = "INSERT INTO manage ( user_uId, study_sId, manager) VALUES( ?, ?, ?);"
+                        
                         connection.query(sql3, [arr[a], sId, 0], function (error, results, fields) {
                             if (error) 
                             console.log('\n * error -> ' + error);
                         });
                     }
-                });
+            });
         });
     })
 })
->>>>>>> 6358765f9081ce918942863fdcd440b847fadafc
 
 app.listen(port);
 console.log("Listening on port ", port);
