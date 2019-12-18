@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+	<title>Crypto Mobile Template</title>
+
+	<!-- Google font file. If you want you can change. -->
+	<link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,900" rel="stylesheet">
+
+	<!-- Fontawesome font file css -->
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+
+	<!-- Template global css file. Requared all pages -->
+	<link rel="stylesheet" type="text/css" href="css/global.style.css">
+	<meta charset="utf-8">
+</head>
+
+<body>
+
+	<div class="wrapper">
+
+		<div class="wrapper-inline">
+			<!-- Header area start -->
+			<header>
+				<!-- extra class no-background -->
+				<a class="go-back-link" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+				<h1 class="page-title">모임 생성</h1>
+			</header>
+			<!-- Header area end -->
+			<!-- Page content start -->
+			<main>
+				<div class="container">
+					<div class="form-divider"></div>
+
+					<div class="ref-content">
+						<h4 class="mt-0">스터디 명</h4>
+						<div class="form-row-group relative">
+							<div class="form-row no-padding">
+								<input type="text" id="studyName" class="form-element" value="">
+							</div>
+						</div>
+					</div>
+
+					<div class="form-divider"></div>
+
+					<div class="ref-content">
+						<h4 class="mt-0">스터디 인원</h4>
+							<button id="addBtn" width="20%">추가</button>
+					</div>
+
+					<div class="form-divider"></div>
+
+					<div class="ref-content">
+						<h4 class="mt-0">스터디 카페 계좌</h4>
+						<div class="form-row-group relative">
+							<div class="form-row no-padding">
+								<input type="text" id="cafeAccount" class="form-element" value="">
+
+							</div>
+						</div>
+					</div>
+
+					<div class="form-divider"></div>
+
+					<div class="ref-content">
+						<h4 class="mt-0">스터디 날짜 관리</h4>
+						<h5>스터디 시작일</h5>
+						<select id="monNum">
+							<option value="" selected></option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+						</select>
+						월
+						<select id="dayNum">
+							<option value="" selected></option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+							<option value="13">13</option>
+							<option value="14">14</option>
+							<option value="15">15</option>
+							<option value="16">16</option>
+							<option value="17">17</option>
+							<option value="18">18</option>
+							<option value="19">19</option>
+							<option value="20">20</option>
+							<option value="21">21</option>
+							<option value="22">22</option>
+							<option value="23">23</option>
+							<option value="24">24</option>
+							<option value="25">25</option>
+							<option value="26">26</option>
+							<option value="27">27</option>
+							<option value="28">28</option>
+							<option value="29">29</option>
+							<option value="30">30</option>
+							<option value="30">31</option>
+						</select>
+						일
+						<div class="form-divider"></div>
+						<h5>모임 주기</h5>
+						<select id="cycle">
+							<option value="" selected></option>
+							<option value="7">1주</option>
+							<option value="14">2주</option>
+							<option value="21">3주</option>
+							<option value="0">기타</option>
+						</select>
+						일
+
+						<div class="form-divider"></div>
+
+						<h5>이체 날짜</h5>
+						<div class="form-row no-padding">
+							스터디 <input type="text" id="indiTrans" value=""> 일 전
+						</div>
+						
+						<div class="form-divider"></div>
+
+						<h5>스터디 카페 예약 날짜</h5>
+						<div class="form-row no-padding">
+							스터디 <input type="text" id="cafeTrans" value=""> 일 전
+						</div>
+					
+						
+					</div>
+
+					<div class="form-divider"></div>
+					<div class="form-divider"></div>
+				</div>
+
+				<div class="form-divider"></div>
+
+				<button id="createBtn" class="button circle block orange">모임 개설하기</button>
+				<div class="form-divider"></div>
+				<a href="main" data-loader="show" class="button circle block red">취소</a>
+				<div class="form-divider"></div>
+				<div class="form-divider"></div>
+				<div class="form-divider"></div>
+		</div>
+	</div>
+
+	</main>
+	<!-- Page content end -->
+
+	</div>
+
+	</div>
+
+
+	<!--Page loader DOM Elements. Requared all pages-->
+	<div class="sweet-loader">
+		<div class="box">
+			<div class="circle1"></div>
+			<div class="circle2"></div>
+			<div class="circle3"></div>
+		</div>
+	</div>
+
+
+
+	<!-- JQuery library file. requared all pages -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+
+	<!-- Template global script file. requared all pages -->
+	<script src="js/global.script.js"></script>
+
+	<script>
+
+		$("#createBtn").click(function () {
+			var studyName = $("#studyName").val();
+			var cafeAccount = $("#cafeAccount").val();
+			var monNum = $('#monNum').val();
+			var dayNum = $("#dayNum").val();
+			var studyDay = '2019-' + monNum + '-' + dayNum;
+			var cycle = $("#cycle").val();
+			var indiTrans = $("#indiTrans").val();
+			var cafeTrans = $("#cafeTrans").val();
+
+			console.log('\n* 입력한 스터디 정보 확인(in 개발자도구 콘솔창) -> ' + studyName, cafeAccount, studyDay, cycle);
+
+			$.ajax({
+				url: 'http://localhost:3000/createStudy',
+				type: 'POST',
+				headers: {
+					'x-access-token': sessionStorage.getItem('jwtToken')
+				},
+				data: {
+					// request body 부분임
+					studyName: studyName,
+					cafeAccount: cafeAccount,
+					studyDay: studyDay,
+					cycle: cycle,
+					cafeTrans : cafeTrans,
+					indiTrans : indiTrans
+				},
+				success: function (data) {
+					if (data == '새로운 모임 성공') {
+						alert("새로운 모임 생성 완료");
+					}
+					window.location = '/main' // 스터디 메인 화면으로 이동
+				}
+			})
+		})
+	</script>
+
+	<script langauge="javascript">
+		$("#addBtn").click(function () {
+			window.open("addUser", "스터디원 추가", "width=800,height=400");
+		})
+
+
+	</script>
+
+</body>
+
+</html>
