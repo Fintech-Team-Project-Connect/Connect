@@ -13,10 +13,10 @@ var port = process.env.PORT|| 3000;
 /* MySQL 연동 */
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
-    host     : 'localhost', // database end-point
+    host     : '192.168.70.224', // database end-point
     port     : '3306',
-    user     : 'root', // 접속할 db 계정
-    password : 'root', // db 계정 비밀번호
+    user     : 'develop', // 접속할 db 계정
+    password : '1q2w3e4r', // db 계정 비밀번호
     database : 'connect' // 현재 사용할 데이터베이스
 });
 connection.connect();
@@ -74,6 +74,16 @@ app.get('/studyMain', function (req, res) {
 // * 잔액조회 창
 app.get('/balance', function (req, res) {
     res.render('balance')
+})
+
+// * 모임 생성 창
+app.get('/createStudy', function (req, res) {
+    res.render('createStudy')
+})
+
+// * 스터디원 추가 창
+app.get('/addUser', function (req, res) {
+    res.render('addUser')
 })
 
 // * QR코드 창
@@ -467,10 +477,73 @@ app.post('/deposit', auth, function(req, res) {
     });    
 })
 
+<<<<<<< HEAD
 // * 크론 Job 스케줄러(일정 시간마다 반복되는 작업 자동화)
 cron.schedule('*/10 * * * * *', () => {
     console.log('info', 'running a task every minute / ' + new Date());
 });
+=======
+// * 스터디 개설
+
+var arr = [];
+var i = 0;
+app.post('/addUser', auth, function(req, res) {
+
+    var id = req.body.studyUser;
+    var uId = req.decoded.uId;
+    var sId = 0;
+    var sql = "SELECT * FROM connect.user WHERE uId = ? ;"
+    console.log('\n* 검색한 아이디 확인(in Server) -> \n- id : ' + id);
+
+    connection.query(sql, [id], function(error, results, fields) {
+         if (error) throw error;
+        if(results.length < 1) {
+            console.log('\n* 사용자가 없습니다.');
+            //res.json('검색된 사용자 없음');
+            }
+        else {
+            arr[i] = id;
+            console.log(id + '를 담았습니다.')
+            i++;
+        }
+    });
+
+    app.post('/createStudy', auth, function(req, res) {
+        var studyName = req.body.studyName;
+        var cafeAccount = req.body.cafeAccount;
+        var studyDay = req.body.studyDay;
+        var cycle = req.body.cycle;
+        var cafeTrans = req.body.cafeTrans;
+        var indiTrans = req.body.indiTrans;
+        
+        console.log('\n* 입력한 스터디 정보 확인(in Server) -> \n- 스터디 이름 : ' + studyName + '\n- 스터디 카페 계좌 : ' + cafeAccount + '\n- 스터디 날짜 : ' + studyDay + '\n- 스터디 주기 : ' + cycle + '\n- 스터디 개설자 : ' + uId);
+    
+        var sql1 = "INSERT INTO study( sName, sDate, indiTrans, cafeTrans, sAccount, sBalance, sPenalty, cafe_cAccount) VALUES( ?, ?, ?, ?, ?, ?, ?, ?);"
+        connection.query(sql1, [studyName, studyDay, indiTrans, cafeTrans, cafeAccount, 0, 0, cafeAccount], function (error, results, fields) {
+    
+            if (error) 
+            console.log('\n * error -> ' + error);
+            console.log(results.insertId);  
+            sId = results.insertId;
+    
+            var sql2 = "INSERT INTO manage(user_uId, study_sId, manager) VALUES( ?, ?, ?);"
+            connection.query(sql2, [uId, sId, 1], function (error, results, fields) {
+    
+                if (error) 
+                    console.log('\n * error -> ' + error);       
+                    res.json('새로운 모임 성공'); // '새로운 모임 성공' -> 이 문자는 postman으로 날렸을 때 확인 가능
+                    for (var a = 0; a < arr.length; a++) {
+                        var sql3 = "INSERT INTO manage ( user_uId, study_sId, manager) VALUES( ?, ?, ?);"
+                        connection.query(sql3, [arr[a], sId, 0], function (error, results, fields) {
+                            if (error) 
+                            console.log('\n * error -> ' + error);
+                        });
+                    }
+                });
+        });
+    })
+})
+>>>>>>> 6358765f9081ce918942863fdcd440b847fadafc
 
 app.listen(port);
 console.log("Listening on port ", port);

@@ -2,10 +2,10 @@ var mysql      = require('mysql');
 
 // connection 수립
 var connection = mysql.createConnection({
-    host     : 'localhost', // database end-point
+    host     : '192.168.70.224', // database end-point
     port     : '3306',
-    user     : 'root', // 접속할 db 계정
-    password : 'root', // db 계정 비밀번호
+    user     : 'develop', // 접속할 db 계정
+    password : '1q2w3e4r', // db 계정 비밀번호
     database : 'connect' // 현재 사용할 데이터베이스
 });
  
