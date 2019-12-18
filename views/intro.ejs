@@ -98,7 +98,7 @@
 			<!-- Header area start -->
 			<header> <!-- extra class no-background -->
 				<a class="go-back-link" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
-				<h1 class="page-title">LOGIN</h1>
+				<h1 class="page-title">INTRO</h1>
 				<div class="navi-menu-button">
 					<em></em>
 					<em></em>
@@ -113,33 +113,21 @@
 					<div class="form-divider"></div>
 
 					<div class="form-divider"></div>
-					<div class="form-label-divider"><span>OR</span></div>
+					<div class="form-divider"></div>
 					<div class="form-divider"></div>
 
-					<div class="form-row-group with-icons">
-						<div class="form-row no-padding">
-							<i class="fa fa-envelope"></i>
-							<input type="text" id="userId" name="aaa" class="form-element" placeholder="사용자 아이디">
-						</div>
-						<div class="form-row no-padding">
-							<i class="fa fa-lock"></i>
-							<input type="password" id="userPassword" name="aaa" class="form-element" placeholder="비밀번호">
-						</div>
-					</div>
-
-					<div class="form-row txt-center mt-15">
-						<a href="forgot-password.html" data-loader="show">Forgot password?</a>
-					</div>
-
-					<div class="form-divider"></div>
-
+                    <div class="form-row">
+						<button type="button" id="loginBtn" class="button circle block gray">+</a>
+                    </div>
+                    <div class="form-divider"></div>
 					<div class="form-row">
-						<button type="button" id="loginBtn" class="button circle block orange">Login</a>
+						<button type="button" id="createBtn" class="button circle block blue">스터디 개설하기</a>
+                    </div>
+                    <div class="form-divider"></div>
+                    <div class="form-row">
+						<button type="button" id="joinBtn" class="button circle block blue">스터디 참여하기</a>
 					</div>
 
-					<div class="form-row txt-center mt-15">
-						Don't you have an account yet? <a href="/signup" data-loader="show">Sign Up</a>
-					</div>
 
 				</div>
 			</main>
@@ -164,32 +152,24 @@
 	<script src="js/global.script.js"></script>
 
 	<script>
-        $("#loginBtn").click(function() {
-
-            var id = $("#userId").val();
-            var password = $("#userPassword").val();
-
-            console.log('\n* 입력한 로그인 정보 확인(in 개발자도구 콘솔창) -> ' + id, password);
-
-            $.ajax({
-				url:'http://localhost:3000/login',
-				type : 'POST',
-				data : {
-					id : id,
-					password : password
-                },
-                success : function(data) {
-					if(data == 1) {
-						alert("환영합니다.");
-                    }
-					
-                    console.log('* 로그인 성공\n* 토큰 값(in 개발자도구 콘솔창) -> ' + data);
-                    sessionStorage.setItem('jwtToken', data); // [개발자 도구]-[Application]-[Session Storage]에 토큰 담긴 것 확인 가능
-					sessionStorage.setItem('userId', id);
-					window.location = '/intro' // 메인 화면으로 이동하도록                 
-				}
-			})
+        $("#createBtn").click(function() {
+            window.location = '/create'
         })
+        $("#joinBtn").click(function() {
+            window.location = '/join'
+		})
+        var jwtToken = sessionStorage.getItem('jwtToken')
+        fetchUserData();
+        function fetchUserData(){
+            $.ajax({
+                url:'http://localhost:3000/intro',
+                type : 'POST',
+                headers : {
+                    'x-access-token' : jwtToken
+                }
+            })
+
+        }
     </script>
 </body>
 

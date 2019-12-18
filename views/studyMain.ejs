@@ -451,6 +451,9 @@
    <script src="js/global.script.js"></script>
    
    <script>
+        var jwtToken = sessionStorage.getItem('jwtToken');
+        
+        // * 쿼리스트링
         function getQueryStringObject() {
             var a = window.location.search.substr(1).split('&');
             if (a == "") return {};
@@ -465,8 +468,10 @@
             return b;
 		}
         var qs = getQueryStringObject();
-        var jwtToken = sessionStorage.getItem('jwtToken');
+        var i = qs.sId - 1;
+        console.log('\n* i 값 확인 -> ' + i + '\n* qs.sId 값 확인 -> ' + qs.sId);
     
+        // * 스터디 목록
         function fetchStudyList() {
 			$.ajax({
                 url:'http://localhost:3000/studyList',
@@ -479,15 +484,41 @@
                     console.log('\n * data 확인(studyMain.ejs) -> ');
                     console.log(data);
                     
-                    var i = qs.sId - 1;
                     $("#study-title").html(data[i].sName + " 스터디");
                     $("#sDate").text(data[i].sDate);
                     $("#cost").html(data[i].cost + "원");
-                    $("#cafeTrans").html("스터디일 기준, " + data[i].cafeTrans + "일 전에 스터디 카페로 이체됩니다.");
-                    $("#indiTrans").html("스터디일 기준, " + data[i].indiTrans + "일 전에 스터디원의 계좌로부터 출금됩니다.");
+                    $("#cafeTrans").html("스터디일 기준, " + data[i].cafeTrans + "일 전에 " + data[i].cName + "로 입금됩니다.");
+                    //$("#indiTrans").html("스터디일 기준, " + data[i].indiTrans + "일 전에 스터디원의 계좌로부터 출금됩니다.");
+                
+                    // * 출금이체(스터디원1 ==> 우리App) 기능이 발생하는 function
+                    function fetchWithdraw() {
+                        $.ajax({
+                            url:'http://localhost:3000/withdraw',
+                            type : 'POST',
+                            headers : {
+                                'x-access-token' : jwtToken
+                            },
+                            success:function(data) {
+                                if(data == 1)
+                                    $("#indiTrans").text("스터디원의 계좌로부터 출금이 완료되었습니다.")
+                            }
+                        }); 
+                    }
+                    
+                    if sys의 날짜 => (data[i].sDate - data[i].indiTrans)
+                    {
+                        fetchWithdraw();
+                        console.log('\n* data[i].sDate - data[i].indiTrans -> ');
+                        console.log(data[i].sDate - data[i].indiTrans);
+                    }
+                    else
+                    {
+                        $("#indiTrans").html("스터디일 기준, " + data[i].indiTrans + "일 전에 스터디원의 계좌로부터 출금됩니다.");
+                    }
                 }
             }); 
         }
+
         fetchStudyList();
 </script>
 </body>

@@ -44,6 +44,21 @@ app.get('/login', function (req, res) {
     res.render('login')
 })
 
+// * 
+app.get('/intro', function (req, res) {
+    res.render('intro')
+})
+
+// * 
+app.get('/join', function (req, res) {
+    res.render('join')
+})
+
+// * 
+app.get('/studyInfo', function (req, res) {
+    res.render('studyInfo')
+})
+
 // * 스터디 목록 창
 app.get('/main', function (req, res) {
     res.render('main')
@@ -335,8 +350,8 @@ app.post("/transaction_list", auth, function(req, res) {
     });
 })
 
-// * 2.5.1 출금이체 API (QR코드로 출금하기)
-app.post('/withdrawQR', auth, function(req, res) {
+// * 2.5.1 출금이체 API
+app.post('/withdraw', auth, function(req, res) {
 
     // 은행거래고유번호 자동으로 생성되게끔
     var countNum = Math.floor(Math.random() * 1000000000) + 1;
@@ -361,22 +376,24 @@ app.post('/withdrawQR', auth, function(req, res) {
             {
                 "bank_tran_id": bankTranId,
                 "cntr_account_type": "N",
-                "cntr_account_num": "7887796332",
-                "dps_print_content": "저녁식사",
+                "cntr_account_num": "1111111111",
+                "dps_print_content": "스터디비용입금",
                 "fintech_use_num": "199159985057870944710718",
-                "wd_print_content" : "저녁식사",
-                "tran_amt": "12000",
+                "wd_print_content" : "스터디비용출금",
+                "tran_amt": "3000",
+                "tran_dtime": "20191218141900",
+                "req_client_name": "스터디원1",
                 "req_client_fintech_use_num" : "199159985057870944710718",
-                "tran_dtime": "20191121105401",
-                "req_client_name": "노현영",
-                "req_client_num": "7887796332",
-                "transfer_purpose": "TR" 
+                "req_client_num": "1111111111",
+                "transfer_purpose": "TR"
             },
         }
         request(option, function (error, response, body) {
+            console.log('\* 출금이체 body -> ')
             console.log(body);
+
             var resultObject = body;
-            if(resultObject.rsp_code == "A0000"){
+            if(resultObject.rsp_code == "A0000") { // 출금이체가 성공할 경우
                 res.json(1);
             } 
             else {
