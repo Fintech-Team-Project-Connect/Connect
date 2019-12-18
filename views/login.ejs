@@ -166,7 +166,7 @@
 	<script>
         $("#loginBtn").click(function() {
 
-            var id = $("#userId").val();
+            var id = $("#userId").val();//input type에 입력한 사용자 id를 가지고 옴
             var password = $("#userPassword").val();
 
             console.log('\n* 입력한 로그인 정보 확인(in 개발자도구 콘솔창) -> ' + id, password);
@@ -184,9 +184,16 @@
                     }
 					
                     console.log('* 로그인 성공\n* 토큰 값(in 개발자도구 콘솔창) -> ' + data);
+<<<<<<< HEAD
                     sessionStorage.setItem('jwtToken', data); // [개발자 도구]-[Application]-[Session Storage]에 토큰 담긴 것 확인 가능
 					sessionStorage.setItem('userId', id);
 					window.location = '/main' // 메인 화면으로 이동하도록                 
+=======
+					sessionStorage.setItem('jwtToken', data); // [개발자 도구]-[Application]-[Session Storage]에 토큰 담긴 것 확인 가능
+					sessionStorage.setItem('userId',id);
+			
+                    window.location = '/main' // 메인 화면으로 이동하도록                 
+>>>>>>> 4fcf17eba1a6822ac58076a7f005930adb0e1457
 				}
 			})
         })

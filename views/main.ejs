@@ -217,7 +217,11 @@
 
 				<div class="dash-balance">
 					<div class="dash-content relative">
+<<<<<<< HEAD
 						<h3 class="w-text" id="uId"></h3>
+=======
+						<h3 class="w-text" id = "userName"></h3>
+>>>>>>> 4fcf17eba1a6822ac58076a7f005930adb0e1457
 						<div class="notification">
 							<a href=""><i class="fa fa-plus"></i></a>
 						</div>
@@ -283,11 +287,17 @@
 	<script src="js/global.script.js"></script>
 
     <script>
+<<<<<<< HEAD
         var jwtToken = sessionStorage.getItem('jwtToken');
         var userId = sessionStorage.getItem('userId');
 
         $("#uId").html(userId + "님이 참여 중인 스터디 목록");
 
+=======
+		var jwtToken = sessionStorage.getItem('jwtToken');
+		var userId = sessionStorage.getItem('userId');
+		$("#userName").html(userId+"님이 참여중인 스터디 목록");
+>>>>>>> 4fcf17eba1a6822ac58076a7f005930adb0e1457
         function fetchStudyList() {
             $.ajax({
                 url:'http://localhost:3000/studyList',
