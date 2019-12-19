@@ -13,26 +13,10 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
-/*
-크론이 할 일
-
-- 5초마다 반복되는 일 실행
-- 뭘 반복하는지? sql문! 즉, 시스템이 반복적으로 DB에 접근
-- sql이 표현하고자 하는 바? 이체했는지 아닌지를 체크! 이체 안 했으면 이체 완료로 변경
-- 언제 변경하느냐? 우리가 설정한 날에
-- 무엇에 대한 이체건인지? 어떤 스터디인지!
-- 얼마를 이체해야하는지? 어떤 스터디카페인지!
-*/
-
 // * 크론 Job 스케줄러(일정 시간마다 반복되는 작업 자동화) - 출금이체
 cron.schedule('*/5 * * * * *', () => {
 
-<<<<<<< HEAD
     console.log('출금이체 대기 중입니다.');
-=======
-    console.log('출금 내역 시작합니다.');
-    var sql = "SELECT * FROM connect.cron c JOIN connect.user u ON u.uId = c.moneyFrom WHERE transfer = 0;";
->>>>>>> 6ce7a528ab6f773a77b852c158898ee31d1294fa
 
     var sql = "SELECT * FROM connect.cron c JOIN connect.user u ON u.uId = c.moneyFrom WHERE transfer = ? AND sDate = ?";
     connection.query(sql, [0, '2019-01-01'], function(error, results, fields) {
@@ -100,7 +84,7 @@ cron.schedule('*/5 * * * * *', () => {
     var sql = "SELECT * FROM cron c JOIN study s ON c.moneyTo = s.cafe_cAccount WHERE c.transfer = ? AND s.sDate = ?;";
     
     
-    
+
     connection.query(sql, [0, '2019-11-11'], function(error, results, fields) {
    
         if (error)
