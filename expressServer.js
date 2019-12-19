@@ -484,11 +484,20 @@ app.post('/addUser', auth, function(req, res) {
     app.post('/createStudy', auth, function(req, res) {
         var studyName = req.body.studyName;
         var cafeAccount = req.body.cafeAccount;
-        var studyDay = req.body.studyDay;
+        var monNum = req.body.monNum;
+        var dayNum = req.body.dayNum;
+        var year = new Date().getFullYear();
+        var studyDay = year + '-' + monNum + '-' + dayNum;
         var cycle = req.body.cycle;
         var cafeTrans = req.body.cafeTrans;
         var indiTrans = req.body.indiTrans;
         
+
+        if (new Date().getMonth +1 > monNum) {
+            year += 1;
+            year + '-' + monNum + '-' + dayNum;
+        }
+
         console.log('\n* 입력한 스터디 정보 확인(in Server) -> \n- 스터디 이름 : ' + studyName + '\n- 스터디 카페 계좌 : ' + cafeAccount + '\n- 스터디 날짜 : ' + studyDay + '\n- 스터디 주기 : ' + cycle + '\n- 스터디 개설자 : ' + uId);
     
         var sql1 = "INSERT INTO study( sName, sDate, indiTrans, cafeTrans, sAccount, sBalance, sPenalty, cafe_cAccount) VALUES( ?, ?, ?, ?, ?, ?, ?, ?);"
@@ -500,12 +509,24 @@ app.post('/addUser', auth, function(req, res) {
             sId = results.insertId;
     
             var sql2 = "INSERT INTO manage(user_uId, study_sId, manager) VALUES( ?, ?, ?);"
-            
+            var cost;
+            var sql4 = "SELECT cost FROM cafe where cAccount = ?;"
+            connection.query(sql4,[cafeAccount],function(error,results,fields){
+                if(error){
+                    console.log('sql4에러');
+                    console.log('\n * error -> ' + error);
+
+                }else{
+                    cost = results[0].cost ;
+                    console.log(results[0].cost);
+                }
+            })
             connection.query(sql2, [uId, sId, 1], function (error, results, fields) {
                 if (error) 
                     console.log('\n * error -> ' + error);       
                     res.json('새로운 모임 성공'); // '새로운 모임 성공' -> 이 문자는 postman으로 날렸을 때 확인 가능
-                    
+                    dayNum-= indiTrans;
+                    studyDay = year + '-' + monNum + '-' + dayNum;//출금일자 지정해주기
                     for (var a = 0; a < arr.length; a++) {
                         var sql3 = "INSERT INTO manage ( user_uId, study_sId, manager) VALUES( ?, ?, ?);"
                         
@@ -513,6 +534,17 @@ app.post('/addUser', auth, function(req, res) {
                             if (error) 
                             console.log('\n * error -> ' + error);
                         });
+                       
+                        var sql5 = "INSERT INTO cron ( moneyFrom, moneyTo,cost,transfer,sDate) VALUES( ?, ?, ?, ? ,?);"
+                        
+                        connection.query(sql5,[arr[a],cafeAccount,cost,0,studyDay],function(error,results,fields){
+                            if(error){
+                            console.log('sql5에러');
+                            console.log('\n * error -> ' + error);
+                            }else{
+                                console.log("cron에 등록되었습니다.");
+                            }
+                        })
                     }
             });
         });
