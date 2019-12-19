@@ -86,7 +86,7 @@ app.get("/authResult", function(req, res) {
 
     // * 2.1.1. 사용자인증 API (3-legged)
     var authCode = req.query.code; // authorization_code(사용자인증 성공 시 반환되는 코드)
-    console.log("\n* 사용자 인증 API를 통하여 획득한 authorization Code(사용자 동의를 받았다는 의미) -> " + authCode);
+    //console.log("\n* 사용자 인증 API를 통하여 획득한 authorization Code(사용자 동의를 받았다는 의미) -> " + authCode);
     
     // * 2.1.2 사용자 토큰발급 API (3-legged)
     var option = {
@@ -127,7 +127,7 @@ app.post('/user', function(req, res) {
     var userSeqNo = req.body.userSeqNo;
 
     // postman으로 날리면 아래 콘솔 창 찍힘(accessToken, refreshToken, userSeqNo는 입력해도 안 찍힘)
-    console.log('\n* 입력한 회원가입 정보 확인(in Server) -> \n- id : ' + id + '\n- password : ' + password + '\n- name : ' + name + '\n- account : ' + account + '\n- phone : ' + phone);
+    //console.log('\n* 입력한 회원가입 정보 확인(in Server) -> \n- id : ' + id + '\n- password : ' + password + '\n- name : ' + name + '\n- account : ' + account + '\n- phone : ' + phone);
 
     var sql = "INSERT INTO user(uId, uPassword, uName, uAccount, uPhone, accessToken, refreshToken, userSeqNo) VALUES(?, ?, ?, ?, ?, ?, ?, ?);"
 
@@ -146,12 +146,12 @@ app.post('/login', function(req, res) {
     var password = req.body.password;
     var sql = "SELECT * FROM user WHERE uId = ?;"
 
-    console.log('\n* 입력한 로그인 정보 확인(in Server) -> \n- id : ' + id + '\n- password : ' + password);
+    //console.log('\n* 입력한 로그인 정보 확인(in Server) -> \n- id : ' + id + '\n- password : ' + password);
 
     connection.query(sql, [id], function(error, results, fields) {
         if (error) throw error;      
-        console.log('\n* results -> ')
-        console.log(results);
+        //console.log('\n* results -> ')
+        //console.log(results);
 
         if(results.length < 1) {
             console.log('\n* 사용자가 없습니다.');
@@ -192,8 +192,8 @@ app.post('/studyList', auth, function(req, res) {
 
     connection.query(sql_1, [uId], function(error, results_1, fields) {
         if (error) throw error;
-        console.log('\n* sql_1 results_1 -> ')
-        console.log(results_1);
+        //console.log('\n* sql_1 results_1 -> ')
+        //console.log(results_1);
 
         // sql_2은 in 구문을 사용
         var inSQL = "";
@@ -204,14 +204,14 @@ app.post('/studyList', auth, function(req, res) {
                inSQL = inSQL + ','
             }
         }
-        console.error('\n* inSQL -> ' + inSQL);
+        //console.error('\n* inSQL -> ' + inSQL);
         var resultSQL = '(' + inSQL + ')';
-        console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
+        //console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
 
         connection.query(sql_2 + resultSQL, [], function(error, results_2, fields) {
             if (error) throw error;
-            console.log('\n* sql_2 results_2 -> ')
-            console.log(results_2);
+            //console.log('\n* sql_2 results_2 -> ')
+            //console.log(results_2);
             res.send(results_2);
         });  
     });
@@ -221,8 +221,8 @@ app.post('/studyList', auth, function(req, res) {
 app.post('/userData', auth, function(req, res) {
 
     var uId = req.decoded.uId
-    console.log('\n* req.decoded 확인 -> ');
-    console.log(req.decoded);
+    //console.log('\n* req.decoded 확인 -> ');
+    //console.log(req.decoded);
 
     var sql = 'SELECT * FROM user WHERE uId =?'
 
@@ -366,17 +366,17 @@ app.post('/withdraw', auth, function(req, res) {
             json :    
             {
                 "bank_tran_id": bankTranId,
-                "cntr_account_type": "N",
-                "cntr_account_num": "1111111111",
-                "dps_print_content": "스터디비용입금",
-                "fintech_use_num": "199159985057870944710718",
-                "wd_print_content" : "스터디비용출금",
-                "tran_amt": "3000",
-                "tran_dtime": "20191218141900",
-                "req_client_name": "스터디원1",
-                "req_client_fintech_use_num" : "199159985057870944710718",
-                "req_client_num": "1111111111",
-                "transfer_purpose": "TR"
+                "cntr_account_type": "N",// -> 고정값
+                "cntr_account_num": "1111111111", // 약정계좌/계정 번호
+                "dps_print_content": "스터디비용입금",  // 입금계좌인자내역
+                "fintech_use_num": "199159985057870944710718", // 출금계좌핀테크이용번호
+                "wd_print_content" : "스터디비용출금", // 출금계좌인자내역
+                "tran_amt": "3000", // 거래금액
+                "tran_dtime": "20191218141900", // 요청일시
+                "req_client_name": "스터디원1", // 요청고객성명
+                "req_client_fintech_use_num" : "199159985057870944710718", // 요청고객핀테크이용번호
+                "req_client_num": "1111111111", // 요청고객회원번호
+                "transfer_purpose": "TR"// -> 고정값
             },
         }
         request(option, function (error, response, body) {
@@ -418,26 +418,26 @@ app.post('/deposit', auth, function(req, res) {
             },
             json :
             {
-                "cntr_account_type" : "N",
-                "cntr_account_num" : "2222222222",
-                "wd_pass_phrase" : "NONE",
-                "wd_print_content" : "스터디비용출금",
-                "name_check_option" : "on",
-                "tran_dtime" : "20191218135100",
-                "req_cnt" : "1",
+                "cntr_account_type" : "N", // -> 고정값
+                "cntr_account_num" : "약정계좌번호",
+                "wd_pass_phrase" : "NONE",// -> 고정값
+                "wd_print_content" : "스터디비용출금", // 출금계좌인자내역
+                "name_check_option" : "on",// -> 고정값
+                "tran_dtime" : "20191218135100", // 요청일시
+                "req_cnt" : "1", // 입금요청건수
                 "req_list" :
                 [
                     {
-                        "tran_no" : "1",
+                        "tran_no" : "1", // 거래순번
                         "bank_tran_id": bankTranId,
-                        "fintech_use_num": "199159985057870944512374",
-                        "print_content": "스터디비용입금",
-                        "tran_amt": "15000",
-                        "req_client_name": "서용진",
-                        "req_client_bank_code" : "097",
-                        "req_client_account_num" : "2222222222",
-                        "req_client_num": "2222222222",
-                        "transfer_purpose": "TR"
+                        "fintech_use_num": "핀테크이용번호",
+                        "print_content": "스터디비용입금", // 입금계좌인자내역
+                        "tran_amt": "15000", // 거래금액
+                        "req_client_name": "서용진", //요청고객성명
+                        "req_client_bank_code" : "097", // 요청고객계좌
+                        "req_client_account_num" : "2222222222", // 요청고객계좌번호
+                        "req_client_num": "2222222222", // 요청고객회원번호
+                        "transfer_purpose": "TR"// -> 고정값
                     }
                 ]
             },
@@ -460,7 +460,7 @@ app.post('/deposit', auth, function(req, res) {
 // * 스터디 개설
 var arr = [];
 var i = 0;
-app.post('/addUser', auth, function(req, res) {
+app.post('/addUser', auth, function(req, res1) {
 
     var id = req.body.studyUser;
     var uId = req.decoded.uId;
@@ -472,11 +472,12 @@ app.post('/addUser', auth, function(req, res) {
         if (error) throw error;
         if(results.length < 1) {
             console.log('\n* 사용자가 없습니다.');
-            //res.json('검색된 사용자 없음');
+            res1.json('검색된 사용자 없음');
         }
         else {
             arr[i] = id;
             console.log(id + '를 담았습니다.')
+            res1.json('검색된 사용자 있음');
             i++;
         }
     });
@@ -485,35 +486,35 @@ app.post('/addUser', auth, function(req, res) {
         var studyName = req.body.studyName;
         var cafeAccount = req.body.cafeAccount;
         var monNum = req.body.monNum;
-        var dayNum = req.body.dayNum;
+        var dayNum =req.body.dayNum;
         var year = new Date().getFullYear();
         var studyDay = year + '-' + monNum + '-' + dayNum;
-        var cycle = req.body.cycle;
         var cafeTrans = req.body.cafeTrans;
         var indiTrans = req.body.indiTrans;
-        
+        var cost;
+        var payDay = year + '-' + monNum + '-' + (dayNum-indiTrans);
 
-        if (new Date().getMonth +1 > monNum) {
+        if (monNum < new Date().getMonth() +1) {
             year += 1;
-            year + '-' + monNum + '-' + dayNum;
+            studyDay = year + '-' + monNum + '-' + dayNum;
         }
-
-        console.log('\n* 입력한 스터디 정보 확인(in Server) -> \n- 스터디 이름 : ' + studyName + '\n- 스터디 카페 계좌 : ' + cafeAccount + '\n- 스터디 날짜 : ' + studyDay + '\n- 스터디 주기 : ' + cycle + '\n- 스터디 개설자 : ' + uId);
+        console.log(studyDay);
+        //console.log('\n* 입력한 스터디 정보 확인(in Server) -> \n- 스터디 이름 : ' + studyName + '\n- 스터디 카페 계좌 : ' + cafeAccount + '\n- 스터디 개설자 : ' + uId);
     
+        // 스터디 정보 저장
         var sql1 = "INSERT INTO study( sName, sDate, indiTrans, cafeTrans, sAccount, sBalance, sPenalty, cafe_cAccount) VALUES( ?, ?, ?, ?, ?, ?, ?, ?);"
         connection.query(sql1, [studyName, studyDay, indiTrans, cafeTrans, cafeAccount, 0, 0, cafeAccount], function (error, results, fields) {
     
             if (error) 
             console.log('\n * error -> ' + error);
-            console.log(results.insertId);  
+            //console.log(results.insertId);  
             sId = results.insertId;
-    
-            var sql2 = "INSERT INTO manage(user_uId, study_sId, manager) VALUES( ?, ?, ?);"
-            var cost;
-            var sql4 = "SELECT cost FROM cafe where cAccount = ?;"
-            connection.query(sql4,[cafeAccount],function(error,results,fields){
+            
+            // 해당 카페의 비용 추출
+            var sql2 = "SELECT cost FROM cafe where cAccount = ?;"
+            connection.query(sql2,[cafeAccount],function(error,results,fields){
                 if(error){
-                    console.log('sql4에러');
+                    console.log('sql2에러');
                     console.log('\n * error -> ' + error);
 
                 }else{
@@ -521,23 +522,23 @@ app.post('/addUser', auth, function(req, res) {
                     console.log(results[0].cost);
                 }
             })
-            connection.query(sql2, [uId, sId, 1], function (error, results, fields) {
+            // 지금 로그인중인 사용자 manage에 추가
+            var sql3 = "INSERT INTO manage(user_uId, study_sId, manager) VALUES( ?, ?, ?);"
+            connection.query(sql3, [uId, sId, 1], function (error, results, fields) {
                 if (error) 
                     console.log('\n * error -> ' + error);       
-                    res.json('새로운 모임 성공'); // '새로운 모임 성공' -> 이 문자는 postman으로 날렸을 때 확인 가능
-                    dayNum-= indiTrans;
-                    studyDay = year + '-' + monNum + '-' + dayNum;//출금일자 지정해주기
+                    res.json('새로운 모임 성공');
+
                     for (var a = 0; a < arr.length; a++) {
-                        var sql3 = "INSERT INTO manage ( user_uId, study_sId, manager) VALUES( ?, ?, ?);"
-                        
-                        connection.query(sql3, [arr[a], sId, 0], function (error, results, fields) {
+                        // 추가한 스터디원들 manage에 추가
+                        var sql4 = "INSERT INTO manage ( user_uId, study_sId, manager) VALUES( ?, ?, ?);"
+                         connection.query(sql4, [arr[a], sId, 0], function (error, results, fields) {
                             if (error) 
                             console.log('\n * error -> ' + error);
                         });
-                       
-                        var sql5 = "INSERT INTO cron ( moneyFrom, moneyTo,cost,transfer,sDate) VALUES( ?, ?, ?, ? ,?);"
-                        
-                        connection.query(sql5,[arr[a],cafeAccount,cost,0,studyDay],function(error,results,fields){
+                        // cron 에 스터디원들 출금내용 저장
+                        var sql5 = "INSERT INTO cron ( moneyFrom, moneyTo, cost, transfer, sDate) VALUES( ?, ?, ?, ? ,?);"
+                        connection.query(sql5, [arr[a], cafeAccount, cost, 0, payDay],function(error,results,fields){
                             if(error){
                             console.log('sql5에러');
                             console.log('\n * error -> ' + error);
@@ -547,6 +548,17 @@ app.post('/addUser', auth, function(req, res) {
                         })
                     }
             });
+
+            // cron 에 로그인중인 사용자 출금내용 저장
+            var sql6 = "INSERT INTO cron ( moneyFrom, moneyTo, cost, transfer, sDate) VALUES( ?, ?, ?, ? ,?);"
+            connection.query(sql6, [uId, cafeAccount, cost, 0, payDay],function(error,results,fields){
+                if(error){
+                console.log('sql6에러');
+                console.log('\n * error -> ' + error);
+                }else{
+                    console.log("cron에 등록되었습니다.");
+                }
+            })
         });
     })
 })

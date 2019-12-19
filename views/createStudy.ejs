@@ -197,7 +197,7 @@
 			var indiTrans = $("#indiTrans").val();
 			var cafeTrans = $("#cafeTrans").val();
 
-			//console.log('\n* 입력한 스터디 정보 확인(in 개발자도구 콘솔창) -> ' + studyName, cafeAccount, studyDay, cycle);
+			console.log('\n* 입력한 스터디 정보 확인(in 개발자도구 콘솔창) -> ' + studyName, cafeAccount, cycle);
 
 			$.ajax({
 				url: 'http://localhost:3000/createStudy',
@@ -229,10 +229,6 @@
 		$("#addBtn").click(function () {
 			window.open("addUser", "스터디원 추가", "width=800,height=400");
 		})
-
-
 	</script>
-
 </body>
-
 </html>

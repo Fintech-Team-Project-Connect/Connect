@@ -34,11 +34,15 @@
 				    <div class="form-divider"></div>
 
 					<div class="ref-content">
-						<h4 class="mt-0">스터디원 아이디 찾기</h4>
 						<div class="form-row-group relative">
 							<div class="form-row no-padding">
-								<input type="text" id="userId" class="form-element" width="80%" value="사용자 아이디 입력">
+								<div class="form-divider"></div>
+								<input type="text" id="userId" width="150%" placeholder="사용자 아이디 입력">
 								<button id="findBtn" width="20%">찾기</button>
+								<div class="form-divider"></div>
+								<h5>* 스터디원 목록</h5>
+								<h4 id="userList" class="text-muted mt-0 mb-0"></h4>
+								<div class="form-divider"></div>
 							</div>
 						</div>
 					</div>
@@ -79,7 +83,8 @@
 	<script src="js/global.script.js"></script>
 	
 	<script>
-		
+		var arr = [];
+		var i = 0;
 		$("#findBtn").click(function() {
 			var studyUser = $("#userId").val();
 
@@ -100,7 +105,10 @@
 						alert("없는 ID 입니다.");
 					}
 					else {
-						alert(studyUser + "를 추가합니다.");
+						alert(studyUser + " 를 추가합니다.");
+						arr[i] = studyUser;
+						i++;
+						$("#userList").text(arr);
 					}
 				}
 			})
@@ -117,7 +125,6 @@
             window.close() // 스터디 메인 화면으로 이동
 		})
    </script>
-
 </body>
 
 </html>
