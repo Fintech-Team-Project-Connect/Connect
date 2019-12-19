@@ -6,6 +6,7 @@ var cron = require('node-cron');
 var jwt = require('jsonwebtoken');
 var tokenKey = "fintech_tokenKey";
 var auth = require('./lib/auth');
+var moment = require('moment');
 
 var app = express();
 var port = process.env.PORT|| 3000;
@@ -188,7 +189,7 @@ app.post('/studyList', auth, function(req, res) {
 
     var uId = req.decoded.uId;
     var sql_1 = 'SELECT * FROM manage JOIN study ON manage.study_sId = study.sId WHERE manage.user_uId = ?;'
-    var sql_2 = 'SELECT * FROM cafe JOIN study ON cafe.cAccount = study.cafe_cAccount WHERE study.cafe_cAccount in '
+    var sql_2 = 'SELECT * FROM cafe JOIN study ON cafe.cAccount = study.cafe_cAccount WHERE study.sId in '
 
     connection.query(sql_1, [uId], function(error, results_1, fields) {
         if (error) throw error;
@@ -198,7 +199,7 @@ app.post('/studyList', auth, function(req, res) {
         // sql_2은 in 구문을 사용
         var inSQL = "";
         for(var i = 0; i < results_1.length; i++) {
-            inSQL = inSQL + '\'' + results_1[i].cafe_cAccount + '\''
+            inSQL = inSQL + '\'' + results_1[i].sId + '\''
 
             if(i != results_1.length - 1) {
                inSQL = inSQL + ','
@@ -206,7 +207,7 @@ app.post('/studyList', auth, function(req, res) {
         }
         //console.error('\n* inSQL -> ' + inSQL);
         var resultSQL = '(' + inSQL + ')';
-        //console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
+        console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
 
         connection.query(sql_2 + resultSQL, [], function(error, results_2, fields) {
             if (error) throw error;
@@ -537,9 +538,9 @@ app.post('/addUser', auth, function(req, res1) {
                         console.log('\n * error -> ' + error);
                     }else{
                         console.log("cron에 등록되었습니다.");
-                    }
-                })
-                
+                        }
+                    })
+
                     for (var a = 0; a < arr.length; a++) {
                         // 추가한 스터디원들 manage에 추가
                         var sql4 = "INSERT INTO manage ( user_uId, study_sId, manager) VALUES( ?, ?, ?);"

@@ -224,19 +224,19 @@
                     </div>
                 </div>
 
-                <section class="bal-section container"></section>
+                <section class="bal-section container"></section>   
                 <section class="wallets-list container">
                     <h4 class="title-main">참여 중인 스터디원 명단</h4>
                     <!--expendable list item -->
                     <div class="expandable-item accordion" data-group="accordion1">
                         <div class="expandable-header purp">
                             <i class="cc ETH-alt"></i>
-                            <h3 class="list-title">스터디원1</h3>
+                            <h3 class="list-title" id = "studyUser">스터디원1</h3>
                             <i class="list-arrow fa fa-angle-down"></i>
                         </div>
                         <div class="expandable-content">
                             <div class="padding-content">
-                                <h4>Recent Ethereum Transactions</h4>
+                                <h4>스터디원 내역</h4>
                                 <div class="recent-trans">
                                     <ul class="dropdown-menu-list list-unstyled no-mb">
                                         <li>
@@ -245,7 +245,7 @@
                                             </div>
                                             <div>
                                                 <span class="name">
-                                                    <strong>Recieved Amount</strong>
+                                                    <strong>벌금</strong>
                                                     <span class="time small">+ 3.39498 ETH</span>
                                                 </span>
                                             </div>
@@ -255,67 +255,8 @@
                             </div>
                         </div>
                     </div>
-                    <!--expendable list item -->
 
-                    <!--expendable list item -->
-                    <div class="expandable-item accordion" data-group="accordion1">
-                        <div class="expandable-header purp">
-                            <i class="cc ETH-alt"></i>
-                            <h3 class="list-title">스터디원2</h3>
-                            <i class="list-arrow fa fa-angle-down"></i>
-                        </div>
-                        <div class="expandable-content">
-                            <div class="padding-content">
-                                <h4>Recent Ethereum Transactions</h4>
-                                <div class="recent-trans">
-                                    <ul class="dropdown-menu-list list-unstyled no-mb">
-                                        <li>
-                                            <div class="notice-icon">
-                                                <i class="fa fa-institution"></i>
-                                            </div>
-                                            <div>
-                                                <span class="name">
-                                                    <strong>Recieved Amount</strong>
-                                                    <span class="time small">+ 3.39498 ETH</span>
-                                                </span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--expendable list item -->
-
-                    <!--expendable list item -->
-                    <div class="expandable-item accordion" data-group="accordion1">
-                        <div class="expandable-header purp">
-                            <i class="cc LTC-alt"></i>
-                            <h3 class="list-title">스터디원3</h3>
-                            <i class="list-arrow fa fa-angle-down"></i>
-                        </div>
-                        <div class="expandable-content">
-                            <div class="padding-content">
-                                <h4>Recent Litecoin Transactions</h4>
-                                <div class="recent-trans">
-                                    <ul class="dropdown-menu-list list-unstyled no-mb">
-                                        <li>
-                                            <div class="notice-icon">
-                                                <i class="fa fa-institution"></i>
-                                            </div>
-                                            <div>
-                                                <span class="name">
-                                                    <strong>Recieved Amount</strong>
-                                                    <span class="time small">+ 3.39498 LTC</span>
-                                                </span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--expendable list item -->
+                    
                 </section>
 
                 <section class="container" heignt=10px>
@@ -353,6 +294,7 @@
                                 </div>
                             </li>
                         </ul>
+                        
                     <h4 class="title-main">스터디 비용(1인당)</h4>
                         <ul class="transaction-list list-unstyled">
                             <li>
@@ -367,10 +309,10 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <a href = "change_money.html">
+                                        <button id = "changeCost">
                                             <small class="d-block mb-0 txt-green">금액변경</small>
                                             <small class="text-muted d-block"></small>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </li>
@@ -469,6 +411,7 @@
 		}
         var qs = getQueryStringObject();
         var i = qs.sId - 1;
+        var a = 0;
         console.log('\n* i 값 확인 -> ' + i + '\n* qs.sId 값 확인 -> ' + qs.sId);
     
         // * 스터디 목록
@@ -483,26 +426,88 @@
 
                     console.log('\n * data 확인(studyMain.ejs) -> ');
                     console.log(data);
-                    
-                    $("#study-title").html(data[i].sName + " 스터디");
-                    $("#sDate").text(data[i].sDate);
-                    $("#cost").html(data[i].cost + "원");
-                    
+                    for (var v = 0; v < data.length; v++) {
+                        if (data[v].sId == qs.sId) {
+                            a = v;
+                        }
+                    }
+                    console.log(a);
+                    console.log(i);
+
+                    var cafeTrans ;
+                    var year = new Date(data[a].sDate).getFullYear(); 
+                    var month = new Date(data[a].sDate).getMonth() + 1 ; 
+                    var day = new Date(data[a].sDate).getDate();
+                    console.log(year + ' 년'+month +'월'+day+'일');
+                    var cafeTrans = day - data[a].cafeTrans;
+                    var indiTrans = day - data[a].indiTrans;
+                    console.log(cafeTrans + '카페'+indiTrans +'개인');
+                    $("#study-title").html(data[a].sName + " 스터디");
+                    $("#sDate").text(year + '년 '+month +'월 '+day+'일');
+                    $("#cost").html(data[a].cost + "원");
+                    $("#cafeTrans").text(year + '년 '+month +'월 '+cafeTrans+'일');
+                    $("#indiTrans").text(year + '년 '+month +'월 '+indiTrans+'일');
+                        // $("#study-title").text(data[a].sName + " 스터디");
+                        // $("#sDate").text(data[a].sDate);
+                        // $("#cost").text(data[a].cost + "원");   
+                        // $("#cafeTrans").html("스터디일 기준, " + data[a].cafeTrans + "일 전에 " + data[a].cName + "로 입금됩니다.");
+                        // $("#indiTrans").html("스터디일 기준, " + data[a].indiTrans + "일 전에 스터디원의 계좌로부터 출금됩니다.");
+                
+                
+                    // * 입금이체(스터디원1 ==> 우리App) 기능이 발생하는 function
+                    function fetchDeposit() {
+                        $.ajax({
+                            url:'http://localhost:3000/deposit',
+                            type : 'POST',
+                            headers : {
+                                'x-access-token' : jwtToken
+                            },
+                            success:function(data) {
+                                if(data == 1)
+                                    $("#cafeTrans").text("스터디카페의 계좌로 입금이 완료되었습니다.")
+                            }
+                        }); 
+                    }
+                    //fetchWithdraw();
+                    //fetchDeposit();
                     /*
-                    if 출금이체 크론이 실행되면
-                        $("#indiTrans").text("스터디원의 계좌로부터 출금이 완료되었습니다.");
+                    if sys의 날짜 => (data[i].sDate - data[i].indiTrans)
+                    {
+                        
+                        fetchDeposit();
+                        console.log('\n* data[i].sDate - data[i].indiTrans -> ');
+                        console.log(data[i].sDate - data[i].indiTrans);
+                    }
                     else
+                    {
                         $("#indiTrans").html("스터디일 기준, " + data[i].indiTrans + "일 전에 스터디원의 계좌로부터 출금됩니다.");
-                    
-                    if 입금이체 크론이 실행되면
-                        $("#cafeTrans").text("스터디카페의 계좌로 입금이 완료되었습니다.");
-                    else
                         $("#cafeTrans").html("스터디일 기준, " + data[i].cafeTrans + "일 전에 " + data[i].cName + "로 입금됩니다.");
+                    }
                     */
                 }
             }); 
         }
         fetchStudyList();
+
+        // * 출금이체(스터디원1 ==> 우리App) 기능이 발생하는 function
+        function fetchWithdraw() {
+            $.ajax({
+                url:'http://localhost:3000/withdraw',
+                type : 'POST',
+                headers : {
+                    'x-access-token' : jwtToken
+                },
+                success:function(data) {
+                    if(data == 1)
+                        $("#indiTrans").text("스터디원의 계좌로부터 출금이 완료되었습니다.")
+                }
+            }); 
+        }
+        //fetchWithdraw();
+
+        $("#changePay").click(function () {
+			window.open("changePay", "금액 변경", "width=800,height=400");
+		})
     </script>
 </body>
 </html>
