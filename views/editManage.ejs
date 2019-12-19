@@ -46,7 +46,7 @@
 							<a href="myPenalty"><img src="img/content/icons/14.png" alt=""><strong class="special">내 벌점 내역</strong> </a>
 						</li>
 						<li class="">
-							<a href="manageStudy"><img src="img/content/icons/11.png" alt=""><strong class="special">스터디 관리</strong> </a>
+							<a href="editStudy"><img src="img/content/icons/11.png" alt=""><strong class="special">스터디 관리</strong> </a>
 						</li>
 					</ul>
 				</div>
@@ -88,6 +88,7 @@
                                         <img class="img-xs" src="img/content/coin1.png" alt="coin image">
                                         <div class="ml-10">
                                             <h4 class="coin-name" id="sDate"></h4> 
+                                            <input class="coin-name" id="editDate" placeholder = "변경할 날짜"></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -102,6 +103,7 @@
                                         <img class="img-xs" src="img/content/coin2.png" alt="coin image">
                                         <div class="ml-10">
                                             <h4 class="coin-name" id="cost"></h4>
+                                            <input class="coin-name" id="editCost" placeholder = "변경할 금액"></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -115,13 +117,8 @@
                                         <img class="img-xs" src="img/content/coin1.png" alt="coin image">
                                         <div class="ml-10">
                                             <h4 class="coin-name" id="cafeTrans"></h4>
+                                            <input class="coin-name" id="editCafe" placeholder = "변경할 날짜"></h4>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <a href = "change_datetime.html">
-                                            <small class="d-block mb-0 txt-green">계좌변경</small>
-                                            <small class="text-muted d-block"></small>
-                                        </a>
                                     </div>
                                 </div>
                             </li>
@@ -134,18 +131,22 @@
                                         <img class="img-xs" src="img/content/coin1.png" alt="coin image">
                                         <div class="ml-10">
                                             <h4 class="coin-name" id="indiTrans"></h4>
+                                            <input class="coin-name" id="editIndi" placeholder = "변경할 날짜"></h4>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <a href = "change_datetime.html">
-                                            <small class="d-block mb-0 txt-green">계좌변경</small>
-                                            <small class="text-muted d-block"></small>
-                                        </a>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                 </section>
+
+                <div class="form-divider"></div>
+					<button id="okBtn" class="button circle block orange">변경사항 저장</button>
+					<div class="form-divider"></div>
+					<button id="cancelBtn" class="button circle block red">취소</button>
+					<div class="form-divider"></div>
+					<div class="form-divider"></div>
+					<div class="form-divider"></div>
+					</div>
 
                 <footer>
                 <div class="container">
@@ -203,160 +204,62 @@
         var i = qs.sId - 1;
         var a = 0;
         console.log('\n* i 값 확인 -> ' + i + '\n* qs.sId 값 확인 -> ' + qs.sId);
-    
-        // * 스터디 목록
-        function fetchStudyList() {
-			$.ajax({
-                url:'http://localhost:3000/studyList',
-                type : 'POST',
-                headers : {
-					'x-access-token' : jwtToken
-                },
-                success:function(data) {
-
-                    console.log('\n * data 확인(studyMain.ejs) -> ');
-                    console.log(data);
-                    for (var v = 0; v < data.length; v++) {
-                        if (data[v].sId == qs.sId) {
-                            a = v;
-                        }
-                    }
-                    console.log(a);
-                    console.log(i);
-
-                    var cafeTrans ;
-                    var year = new Date(data[a].sDate).getFullYear(); 
-                    var month = new Date(data[a].sDate).getMonth() + 1 ; 
-                    var day = new Date(data[a].sDate).getDate();
-                    console.log(year + ' 년'+month +'월'+day+'일');
-                    var cafeTrans = day - data[a].cafeTrans;
-                    var indiTrans = day - data[a].indiTrans;
-                    console.log(cafeTrans + '카페'+indiTrans +'개인');
-                    $("#study-title").html(data[a].sName + " 스터디");
-                    $("#sDate").text(year + '년 '+month +'월 '+day+'일');
-                    $("#cost").html(data[a].cost + "원");
-                    $("#cafeTrans").text(year + '년 '+month +'월 '+cafeTrans+'일');
-                    $("#indiTrans").text(year + '년 '+month +'월 '+indiTrans+'일');
-                
-                    // * 입금이체(스터디원1 ==> 우리App) 기능이 발생하는 function
-                    function fetchDeposit() {
-                        $.ajax({
-                            url:'http://localhost:3000/deposit',
-                            type : 'POST',
-                            headers : {
-                                'x-access-token' : jwtToken
-                            },
-                            success:function(data) {
-                                if(data == 1)
-                                    $("#cafeTrans").text("스터디카페의 계좌로 입금이 완료되었습니다.")
-                            }
-                        }); 
-                    }
-                    //fetchWithdraw();
-                    //fetchDeposit();
-                    /*
-                    if sys의 날짜 => (data[i].sDate - data[i].indiTrans)
-                    {
-                        
-                        fetchDeposit();
-                        console.log('\n* data[i].sDate - data[i].indiTrans -> ');
-                        console.log(data[i].sDate - data[i].indiTrans);
-                    }
-                    else
-                    {
-                        $("#indiTrans").html("스터디일 기준, " + data[i].indiTrans + "일 전에 스터디원의 계좌로부터 출금됩니다.");
-                        $("#cafeTrans").html("스터디일 기준, " + data[i].cafeTrans + "일 전에 " + data[i].cName + "로 입금됩니다.");
-                    }
-                    */
-                }
-            }); 
-        }
-        fetchStudyList();
-
-        // * 출금이체(스터디원1 ==> 우리App) 기능이 발생하는 function
-        function fetchWithdraw() {
+ 
+        function fetchPenaltyList() {
             $.ajax({
-                url:'http://localhost:3000/withdraw',
+                url:'http://localhost:3000/manageList',
                 type : 'POST',
                 headers : {
                     'x-access-token' : jwtToken
-                },
-                success:function(data) {
-                    if(data == 1)
-                        $("#indiTrans").text("스터디원의 계좌로부터 출금이 완료되었습니다.")
-                }
-            }); 
-        }
-        //fetchWithdraw();
-
-        $("#changePay").click(function () {
-			window.open("changePay", "금액 변경", "width=800,height=400");
-        })
-        
-
-        function fetchUserList() {
-            $.ajax({
-                url:'http://localhost:3000/userList',
-                type : 'POST',
-                headers : {
-                    'x-access-token' : jwtToken
-                },
-                data : {
-                    sId : qs.sId
                 },
                 success:function(data) {
 
                     console.log('\n * data 확인(main.ejs) -> ');
                     console.log(data);
-                    
-                    for(var i = 0; i < data.length; i++) {
 
-                        $("#userList").append(
-                    '<div class="expandable-item accordion" data-group="accordion1">' +
-                        '<div class="expandable-header purp">' +
-                            '<i class="cc ETH-alt"></i>' +
-                            '<h3 class="list-title" id = "studyUser">' + data[i].uName + '</h3>' +
-                            '<i class="list-arrow fa fa-angle-down"></i>' +
-                        '</div>' +
-                        '<div class="expandable-content">' +
-                            '<div class="padding-content">' +
-                                '<h4>스터디원 내역</h4>' +
-                                '<div class="recent-trans">' +
-                                    '<ul class="dropdown-menu-list list-unstyled no-mb">' +
-                                        '<li>' +
-                                            '<div class="notice-icon">' +
-                                                '<i class="fa fa-institution"></i>' +
-                                            '</div>' +
-                                            '<div>' +
-                                                '<span class="name">' +
-                                                    '<strong>벌금</strong>' +
-                                                    '<span class="time small">벌금 얼마</span>' +
-                                                '</span>' +
-                                            '</div>' +
-                                        '</li>' +
-                                        '<li>' +
-                                            '<div class="notice-icon">' +
-                                                '<i class="fa fa-institution"></i>' +
-                                            '</div>' +
-                                            '<div>' +
-                                                '<span class="name">' +
-                                                    '<strong>전화번호</strong>' +
-                                                    '<span class="time small">' + data[i].uPhone + '</span>' +
-                                                '</span>' +
-                                            '</div>' +
-                                        '</li>' +
-                                    '</ul>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>'
-                        )                       
-                    }
+                    $("#study-title").html(data[0].sName + " 스터디");
+                    $("#sDate").text(data[0].sDate);
+                    $("#cost").html(data[0].cost + "원");
+                    $("#cafeTrans").text(data[0].cafeTrans+'일');
+                    $("#indiTrans").text(data[0].indiTrans+'일');
+                    
                 }
             })
         }
-        fetchUserList();
-                
+        fetchPenaltyList();
+
+        $("#okBtn").click(function() {
+            var editDate = $("editDate").val();
+            var editCost = $("editCost").val();
+            var editCafe = $("editCafe").val();
+            var editIndi = $("editIndi").val();
+            
+			$.ajax({
+				url:'http://localhost:3000/editManage',
+				type : 'POST',
+				headers: {
+					'x-access-token': sessionStorage.getItem('jwtToken')
+				},
+				data : {
+                    editDate : editDate,
+                    editCost : editCost,
+                    editCafe : editCafe,
+                    editIndi : editIndi
+				},
+				success : function(data) {
+					if(data == '업데이트 실패') {
+						alert("수정을 실패했습니다.");
+					}
+					else {
+						alert('수정을 완료하였습니다.');
+					}
+				}
+			})
+		})
+        $("#cancelBtn").click(function() {
+            window.location = '/manageStudy';
+        })
+        
     </script>
 </body>
 </html>

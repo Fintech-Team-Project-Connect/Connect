@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+   <title>Crypto Mobile Template</title>
+
+   <!-- Google font file. If you want you can change. -->
+   <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,900" rel="stylesheet">
+
+   <!-- Fontawesome font file css -->
+   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+
+   <!-- Animate css file for css3 animations. for more : https://daneden.github.io/animate.css -->
+   <!-- Only use animate action. If you dont use animation, you don't have to add.-->
+   <link rel="stylesheet" type="text/css" href="css/animate.css">
+   <link rel="stylesheet" type="text/css" href="css/cryptocoins.css">
+   <link rel="stylesheet" type="text/css" href="plugins/c3-chart/c3.css">
+
+   <!-- Template global css file. Requared all pages -->
+   <link rel="stylesheet" type="text/css" href="css/global.style.css">
+
+   <!-- Swiper slider css file -->
+   <link rel="stylesheet" href="css/swiper.min.css">
+
+   <!--turbo slider plugin css file -->
+   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="plugins/turbo-slider/turbo.css">
+
+</head>
+
+<body>
+   
+    <div class="wrapper ">
+		<div class="nav-menu">
+			<nav class="menu">
+			
+				<!-- Menu navigation start -->
+				<div class="nav-container">
+					<ul class="main-menu">
+						<li class="active">
+							<a href="main"><img src="img/content/icons/1.png" alt=""><strong class="special">나의 스터디</strong> </a>
+						</li>
+						<li class="">
+							<a href="myPenalty"><img src="img/content/icons/14.png" alt=""><strong class="special">내 벌점 내역</strong> </a>
+						</li>
+						<li class="">
+							<a href="editStudy"><img src="img/content/icons/11.png" alt=""><strong class="special">스터디 관리</strong> </a>
+						</li>
+					</ul>
+				</div>
+			<!-- Menu navigation end -->
+			</nav>
+		</div>
+		<div class="wrapper-inline">
+			<!-- Header area start -->
+			<header class="no-background"> <!-- extra class no-background -->
+				<div class="navi-menu-button">
+					<em></em>
+					<em></em>
+					<em></em>
+				</div>
+			</header>
+			<!-- Header area end -->
+
+<!-- Page content start -->
+<main class="margin mt-0">
+
+
+    <div class="form-divider"></div>
+    <div class="form-divider"></div>
+    <div class="form-divider"></div>
+    <div class="form-row">
+        <button type="button" id="addBtn" class="button circle block blue">벌점 추가하기</a>
+    </div>
+    <div class="form-divider"></div>
+    <div class="form-divider"></div>
+
+    <section class="bal-section container" id="penaltyList"></section>
+
+    <footer>
+        <div class="container">
+            <ul>
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-google"></i></a></li>
+                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+            </ul>
+            <p>Copyright © All Right Reserved</p>
+        </div>
+    </footer>
+</main>
+<!-- Page content end -->
+</div>
+</div>
+
+<!--Page loader DOM Elements. Requared all pages-->
+<div class="sweet-loader">
+<div class="box">
+  <div class="circle1"></div>
+  <div class="circle2"></div>
+  <div class="circle3"></div>
+</div>
+</div>
+
+   <!-- JQuery library file. requared all pages -->
+   <script src="js/jquery-3.2.1.min.js"></script>
+
+   <!-- Swiper JS -->
+    <script src="js/swiper.min.js"></script>
+
+   <!-- Template global script file. requared all pages -->
+   <script src="js/app-charts.js"></script>
+   <script src="js/global.script.js"></script>
+   
+   <script>
+        var jwtToken = sessionStorage.getItem('jwtToken');
+        
+        // * 쿼리스트링
+        function getQueryStringObject() {
+            var a = window.location.search.substr(1).split('&');
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=', 2);
+                if (p.length == 1)
+                    b[p[0]] = "";
+                else
+                    b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+		}
+        var qs = getQueryStringObject();
+        var i = qs.sId - 1;
+        var a = 0;
+        console.log('\n* i 값 확인 -> ' + i + '\n* qs.sId 값 확인 -> ' + qs.sId);
+
+        function fetchPenaltyList() {
+            $.ajax({
+                url:'http://localhost:3000/penaltyList',
+                type : 'POST',
+                headers : {
+                    'x-access-token' : jwtToken
+                },
+                data : {
+                    sId : qs.sId
+                },
+                success:function(data) {
+
+                    console.log('\n * data 확인(main.ejs) -> ');
+					console.log(data);
+					
+                    for(var i = 0; i < data.length; i++) {
+
+						var year = new Date(data[i].pDate).getFullYear(); 
+                    	var month = new Date(data[i].pDate).getMonth() + 1 ; 
+                    	var day = new Date(data[i].pDate).getDate();
+
+                        $("#penaltyList").append(                            
+                            '<div class="balance-card mb-15">' +
+						        '<div class="d-flex align-items-center">' +
+									'<div class="d-flex flex-grow">' +
+                                        '<div class="mr-auto">' +
+                                            '<h1 class="b-val"> 이름 : ' + data[i].uName + '</h1>' + 
+                                            '<h1 class="b-val"> 사유 : ' + data[i].pDetail + '</h1>' + 
+                                            '<h1 class="b-val"> 금액 : ' + data[i].pAmount + '</h1>' + 
+                                    		'<p class="g-text mb-10">' + '날짜 : ' + year + '년 ' + month +'월 ' + day + '일' + '</p>' + 
+										'</div>'+
+                                    '</div>'+
+								'</div>'+
+                            '</div>'
+                        )                        
+                    }
+                }
+            })
+        }
+
+        fetchPenaltyList();
+        
+        $("#addBtn").click(function () {
+			window.open("addPenalty?sId=" + qs.sId, "벌점 내역 등록", "width=800,height=400");
+		})
+    </script>
+</body>
+</html>

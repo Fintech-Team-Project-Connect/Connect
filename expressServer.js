@@ -14,10 +14,10 @@ var port = process.env.PORT|| 3000;
 /* MySQL 연동 */
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
-    host     : '192.168.70.224', // database end-point
+    host     : 'localhost', // database end-point
     port     : '3306',
-    user     : 'develop', // 접속할 db 계정
-    password : '1q2w3e4r', // db 계정 비밀번호
+    user     : 'root', // 접속할 db 계정
+    password : 'zrzrzr24', // db 계정 비밀번호
     database : 'connect' // 현재 사용할 데이터베이스
 });
 connection.connect();
@@ -75,6 +75,27 @@ app.get('/studyMain', function (req, res) {
 // * 스터디원 추가 창
 app.get('/addUser', function (req, res) {
     res.render('addUser')
+})
+
+app.get('/example', function (req, res) {
+    res.render('example')
+})
+
+// * 스터디 개설자 창
+app.get('/manageStudy', function (req, res) {
+    res.render('manageStudy')
+})
+
+app.get("/penaltyManage", function(req, res) {
+    res.render('penaltyManage')
+})
+
+app.get("/addPenalty", function(req, res) {
+    res.render('addPenalty')
+})
+
+app.get("/studyManage", function(req, res) {
+    res.render('studyManage')
 })
 
 // * jwt 토큰 인증 모듈
@@ -563,6 +584,136 @@ app.post('/addUser', auth, function(req, res1) {
         });
     })
 })
+// * 스터디원 목록
+app.post('/userList', auth, function(req, res) {
+
+    var uId = req.decoded.uId;
+    var sId = req.body.sId;
+    console.log('유저리스트로 전달한 sId : ' + sId);
+    var sql_1 = 'SELECT manage.user_uId FROM manage WHERE manage.study_sId = ? ;'
+    var sql_2 = 'SELECT user.uPhone, user.uName FROM user WHERE user.uId in '
+
+    connection.query(sql_1, [sId], function(error, results_1, fields) {
+        if (error) throw error;
+        console.log('\n* user sql_1 results_1 -> ')
+        console.log(results_1);
+
+        // sql_2은 in 구문을 사용
+        var inSQL = "";
+        for(var i = 0; i < results_1.length; i++) {
+            inSQL = inSQL + '\'' + results_1[i].user_uId + '\''
+
+            if(i != results_1.length - 1) {
+               inSQL = inSQL + ','
+            }
+        }
+        //console.error('\n* inSQL -> ' + inSQL);
+        var resultSQL = '(' + inSQL + ')';
+        console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
+
+        connection.query(sql_2 + resultSQL, [], function(error, results_2, fields) {
+            if (error) throw error;
+            console.log('\n* user sql_2 results_2 -> ')
+            console.log(results_2);
+            res.send(results_2);
+        });  
+    });
+})
+
+// * 스터디 목록
+app.post('/manageList', auth, function(req, res) {
+
+    var uId = req.decoded.uId;
+    var sql_1 = 'SELECT manage.study_sId FROM user, manage WHERE user.uId = ? AND manage.user_uId = ? AND manage.manager = 1;'
+    var sql_2 = 'SELECT * FROM study WHERE study.sId in '
+
+    connection.query(sql_1, [uId, uId], function(error, results_1, fields) {
+        if (error) throw error;
+        console.log('\n* manage sql_1 results_1 -> ')
+        console.log(results_1);
+
+        // sql_2은 in 구문을 사용
+        var inSQL = "";
+        for(var i = 0; i < results_1.length; i++) {
+            inSQL = inSQL + '\'' + results_1[i].study_sId + '\''
+
+            if(i != results_1.length - 1) {
+               inSQL = inSQL + ','
+            }
+        }
+        //console.error('\n* inSQL -> ' + inSQL);
+        var resultSQL = '(' + inSQL + ')';
+        console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
+
+        connection.query(sql_2 + resultSQL, [], function(error, results_2, fields) {
+            if (error) throw error;
+            console.log('\n* manage sql_2 results_2 -> ')
+            console.log(results_2);
+            res.send(results_2);
+        });  
+    });
+})
+
+app.post('/penaltyList', auth, function(req, res) {
+
+    var uId = req.decoded.uId;
+    var sId = req.body.sId;
+
+    var sql_1 = 'SELECT uId FROM penalty WHERE penalty.sId = ? ;'
+    var sql_2 = 'select user.uName, penalty.pDate, penalty.pDetail, penalty.pAmount FROM user JOIN penalty ON user.uId = penalty.uId WHERE user.uId in '
+    
+    connection.query(sql_1, [sId], function(error, results_1, fields) {
+        if (error) throw error;
+        console.log('\n* penalty sql_1 results_1 -> ')
+        console.log(results_1);
+
+        // sql_2은 in 구문을 사용
+        var inSQL = "";
+        for(var i = 0; i < results_1.length; i++) {
+            inSQL = inSQL + '\'' + results_1[i].uId + '\''
+
+            if(i != results_1.length - 1) {
+               inSQL = inSQL + ','
+            }
+        }
+        //console.error('\n* inSQL -> ' + inSQL);
+        var resultSQL = '(' + inSQL + ')';
+        console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
+
+        connection.query(sql_2 + resultSQL, [], function(error, results_2, fields) {
+            if (error) throw error;
+            console.log('\n* manage sql_2 results_2 -> ')
+            console.log(results_2);
+            res.send(results_2);
+        });  
+    });
+})
+
+app.post('/addPenalty', auth, function(req, res) {
+
+    var sId = req.body.sId;
+    var pId = req.body.pId;
+    var pAmount = req.body.pAmount;
+    var pDetail = req.body.pDetail;
+    var pDate = req.body.pDate;
+    var date = new Date();
+
+    console.log (sId, pId);
+
+    var sql = "INSERT INTO penalty (sId, uId, pAmount, pDate, pDetail) VALUES(?, ?, ?, ?, ?);"
+
+    connection.query(sql, [sId, pId, pAmount, pDate, pDetail], function(error, results, fields) {
+        if (error) throw error;
+        res.json('insert 성공');
+
+        var sql2 = "INSERT INTO cron (moneyFrom, moneyTo, cost, transfer, sDate) VALUES(?, ?, ?, ?, ?);"
+        connection.query(sql2, [pId, 'server', pAmount, 0, date], function(error, results, fields) {
+            if (error) throw error;
+            res.json('insert 성공');
+        });
+    });
+
+});
 
 app.listen(port);
 console.log("Listening on port ", port);

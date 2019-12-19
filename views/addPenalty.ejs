@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+	<title>Crypto Mobile Template</title>
+
+	<!-- Google font file. If you want you can change. -->
+	<link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,900" rel="stylesheet">
+
+	<!-- Fontawesome font file css -->
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+
+	<!-- Template global css file. Requared all pages -->
+	<link rel="stylesheet" type="text/css" href="css/global.style.css">
+	<meta charset="utf-8">
+</head>
+
+<body>
+	
+	<div class="wrapper">
+
+		<div class="wrapper-inline">
+			<!-- Header area start -->
+			<header> <!-- extra class no-background -->
+				<a class="go-back-link" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+				<h1 class="page-title">스터디원 추가</h1>
+			</header>
+			<!-- Header area end -->
+			<!-- Page content start -->
+			<main>
+				<div class="container">
+				    <div class="form-divider"></div>
+
+					<div class="ref-content">
+						<div class="form-row-group relative">
+                            <input type="text" id="pId" width="150%" placeholder="아이디">
+                            <div class="form-divider"></div>
+                            <input type="text" id="pDetail" width="150%" placeholder="사유">
+                            <div class="form-divider"></div>
+                            <input type="text" id="pAmount" width="150%" placeholder="벌금">
+                            <div class="form-divider"></div>
+                            <input type="text" id="pDate" width="150%" placeholder="날짜">
+						</div>
+					</div>
+				</div>
+					<div class="form-divider"></div>
+					<button id="okBtn" class="button circle block orange">추가</button>
+					<div class="form-divider"></div>
+					<button id="cancelBtn" class="button circle block red">취소</button>
+					<div class="form-divider"></div>
+					<div class="form-divider"></div>
+					<div class="form-divider"></div>
+					</div>
+				</div>
+				
+			</main>
+			<!-- Page content end -->
+			
+		</div>
+		
+	</div>
+	
+
+	<!--Page loader DOM Elements. Requared all pages-->
+	<div class="sweet-loader">
+		<div class="box">
+		  	<div class="circle1"></div>
+		  	<div class="circle2"></div>
+		  	<div class="circle3"></div>
+		</div>
+	</div>
+
+	
+
+	<!-- JQuery library file. requared all pages -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+
+	<!-- Template global script file. requared all pages -->
+	<script src="js/global.script.js"></script>
+	
+	<script>
+        var jwtToken = sessionStorage.getItem('jwtToken');
+
+        function getQueryStringObject() {
+            var a = window.location.search.substr(1).split('&');
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=', 2);
+                if (p.length == 1)
+                    b[p[0]] = "";
+                else
+                    b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+		}
+        var qs = getQueryStringObject();
+        console.log(qs.sId);
+
+		$("#okBtn").click(function() {
+            var sId = qs.sId;
+            var pId = $("#pId").val();
+            var pDetail = $("pDetail").val();
+            var pAmount = $("#pAmount").val();
+            var pDate = $("#pDate").val();
+
+			$.ajax({
+				url:'http://localhost:3000/addPenalty',
+				type : 'POST',
+				headers: {
+					'x-access-token': sessionStorage.getItem('jwtToken')
+				},
+				data : {
+                    sId : sId,
+                    pId : pId,
+                    pDetail : pDetail,
+                    pAmount : pAmount,
+                    pDate : pDate
+				},
+				success : function(data) {
+					if(data == 'insert 성공') {
+                        alert("등록 성공");
+                        window.close()
+                        
+					}
+					else {
+						alert("벌점 등록 실패");
+					}
+				}
+			})
+		})
+	
+        $("#cancelBtn").click(function() {
+            window.close() // 스터디 메인 화면으로 이동
+		})
+   </script>
+</body>
+
+</html>
