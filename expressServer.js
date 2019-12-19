@@ -529,6 +529,17 @@ app.post('/addUser', auth, function(req, res1) {
                     console.log('\n * error -> ' + error);       
                     res.json('새로운 모임 성공');
 
+                // cron 에 로그인중인 사용자 출금내용 저장
+                var sql6 = "INSERT INTO cron ( moneyFrom, moneyTo, cost, transfer, sDate) VALUES( ?, ?, ?, ? ,?);"
+                connection.query(sql6, [uId, cafeAccount, cost, 0, payDay],function(error,results,fields){
+                    if(error){
+                        console.log('sql6에러');
+                        console.log('\n * error -> ' + error);
+                    }else{
+                        console.log("cron에 등록되었습니다.");
+                    }
+                })
+                
                     for (var a = 0; a < arr.length; a++) {
                         // 추가한 스터디원들 manage에 추가
                         var sql4 = "INSERT INTO manage ( user_uId, study_sId, manager) VALUES( ?, ?, ?);"
@@ -548,17 +559,6 @@ app.post('/addUser', auth, function(req, res1) {
                         })
                     }
             });
-
-            // cron 에 로그인중인 사용자 출금내용 저장
-            var sql6 = "INSERT INTO cron ( moneyFrom, moneyTo, cost, transfer, sDate) VALUES( ?, ?, ?, ? ,?);"
-            connection.query(sql6, [uId, cafeAccount, cost, 0, payDay],function(error,results,fields){
-                if(error){
-                console.log('sql6에러');
-                console.log('\n * error -> ' + error);
-                }else{
-                    console.log("cron에 등록되었습니다.");
-                }
-            })
         });
     })
 })
