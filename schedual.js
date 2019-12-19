@@ -16,7 +16,7 @@ connection.connect();
 // * 크론 Job 스케줄러(일정 시간마다 반복되는 작업 자동화)
 cron.schedule('*/5 * * * * *', () => {
 
-    console.log('대기 중입니다.');
+    console.log('출금 내역 시작합니다.');
     var sql = "SELECT * FROM connect.cron c JOIN connect.user u ON u.uId = c.moneyFrom WHERE transfer = 0;";
 
     connection.query(sql, function(error, results, fields) {
