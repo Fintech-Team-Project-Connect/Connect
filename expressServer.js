@@ -17,11 +17,7 @@ var connection = mysql.createConnection({
     host     : 'localhost', // database end-point
     port     : '3306',
     user     : 'root', // 접속할 db 계정
-<<<<<<< HEAD
-    password : 'root', // db 계정 비밀번호
-=======
     password : 'zrzrzr24', // db 계정 비밀번호
->>>>>>> a4f5e09a9f8b6e98e73e38dc447773e6435571cc
     database : 'connect' // 현재 사용할 데이터베이스
 });
 connection.connect();
@@ -40,11 +36,6 @@ app.use(express.urlencoded({extended:false}));
 
 /* View 라우터, 기능 라우터 구분 */
 
-// * 첫 화면
-app.get("/intro", function(req, res) {
-    res.render('intro')
-})
-
 // * 회원가입 창
 app.get("/signup", function(req, res) {
     res.render('signup')
@@ -55,9 +46,13 @@ app.get('/login', function (req, res) {
     res.render('login')
 })
 
-// * 스터디 개설자/참여자 선택 창
 app.get('/selectUser', function (req, res) {
     res.render('selectUser')
+})
+
+// * 스터디 개설자/참여자 선택 창
+app.get('/intro', function (req, res) {
+    res.render('intro')
 })
 
 // * 스터디 개설자 창
@@ -66,8 +61,8 @@ app.get('/createStudy', function (req, res) {
 })
 
 // * 스터디 참여자 창
-app.get('/joinStudy', function (req, res) {
-    res.render('joinStudy')
+app.get('/join', function (req, res) {
+    res.render('join')
 })
 
 // * 스터디 목록 창
@@ -219,53 +214,26 @@ app.post('/studyList', auth, function(req, res) {
 
     var uId = req.decoded.uId;
     var sql_1 = 'SELECT * FROM manage JOIN study ON manage.study_sId = study.sId WHERE manage.user_uId = ?;'
-<<<<<<< HEAD
-    var sql_2 = 'SELECT * FROM cafe JOIN study ON cafe.cAccount = study.cafe_cAccount WHERE sId = ? '
-
-    connection.query(sql_1, [uId], function(error, results_1, fields) {
-        if (error) throw error;
-=======
     var sql_2 = 'SELECT * FROM cafe JOIN study ON cafe.cAccount = study.cafe_cAccount WHERE study.sId in '
 
     connection.query(sql_1, [uId], function(error, results_1, fields) {
         if (error) throw error;
         //console.log('\n* sql_1 results_1 -> ')
-        //console.log(results_1);
->>>>>>> a4f5e09a9f8b6e98e73e38dc447773e6435571cc
-
-        var counter = 0;
-        var resList = [];
-
-        for(var i = 0; i < results_1.length; i++) {
-<<<<<<< HEAD
-=======
-            inSQL = inSQL + '\'' + results_1[i].sId + '\''
->>>>>>> a4f5e09a9f8b6e98e73e38dc447773e6435571cc
-
-            connection.query(sql_2, [results_1[i].sId], function(error, results_2, fields) {
-                if (error) {
-                    throw error
-                }
-                else {
-                    console.log(this.sql);
-
-                    resList.push(results_2);
-                    console.log(results_2);
-
-                    counter++;
-                    if(counter == results_1.length) {
-                        console.log('\n* resList 확인 -> ');
-                        console.log(resList);
-                        console.log('\n* resList[i] 확인 -> ');
-                        console.log(resList[0]);
-
-                        res.json(resList);
-                    }
-                }
-            });
+        console.log(results_1);
+        if(results_1.length == 0){
+            res.json(0)
+            return false;
         }
-<<<<<<< HEAD
-=======
+
+        // sql_2은 in 구문을 사용
+        var inSQL = "";
+        for(var i = 0; i < results_1.length; i++) {
+            inSQL = inSQL + '\'' + results_1[i].sId + '\''
+
+            if(i != results_1.length - 1) {
+               inSQL = inSQL + ','
+            }
+        }
         //console.error('\n* inSQL -> ' + inSQL);
         var resultSQL = '(' + inSQL + ')';
         console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
@@ -276,7 +244,6 @@ app.post('/studyList', auth, function(req, res) {
             //console.log(results_2);
             res.send(results_2);
         });  
->>>>>>> a4f5e09a9f8b6e98e73e38dc447773e6435571cc
     });
 })
 
@@ -304,6 +271,7 @@ app.post('/userData', auth, function(req, res) {
                 user_seq_no : results[0].userSeqNo // user_seq_no -> 이거는 오픈뱅킹에서 만든 스펠링 규칙임
             }
         }
+
         request(option, function (error, response, body) {
             console.log('\n* body -> ' + body);
             
@@ -673,6 +641,11 @@ app.post('/manageList', auth, function(req, res) {
         console.log('\n* manage sql_1 results_1 -> ')
         console.log(results_1);
 
+        if(results_1.length == 0){
+            res.json(0)
+            return false;
+        }
+
         // sql_2은 in 구문을 사용
         var inSQL = "";
         for(var i = 0; i < results_1.length; i++) {
@@ -701,12 +674,18 @@ app.post('/penaltyList', auth, function(req, res) {
     var sId = req.body.sId;
 
     var sql_1 = 'SELECT uId FROM penalty WHERE penalty.sId = ? ;'
-    var sql_2 = 'select user.uName, penalty.pDate, penalty.pDetail, penalty.pAmount FROM user JOIN penalty ON user.uId = penalty.uId WHERE user.uId in '
+    var sql_2 = 'select * FROM penalty JOIN user ON user.uId = penalty.uId WHERE penalty.sId = ? AND user.uId in ';
+    
     
     connection.query(sql_1, [sId], function(error, results_1, fields) {
         if (error) throw error;
         console.log('\n* penalty sql_1 results_1 -> ')
         console.log(results_1);
+
+        if(results_1.length == 0){
+            res.json(0)
+            return false;
+        }
 
         // sql_2은 in 구문을 사용
         var inSQL = "";
@@ -721,7 +700,7 @@ app.post('/penaltyList', auth, function(req, res) {
         var resultSQL = '(' + inSQL + ')';
         console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
 
-        connection.query(sql_2 + resultSQL, [], function(error, results_2, fields) {
+        connection.query(sql_2 + resultSQL, [sId], function(error, results_2, fields) {
             if (error) throw error;
             console.log('\n* manage sql_2 results_2 -> ')
             console.log(results_2);

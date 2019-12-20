@@ -150,22 +150,12 @@
                 },
                 success:function(data) {
 
-<<<<<<< HEAD
-					console.log('\n * data 확인 1 (main.ejs) -> ');
-					console.log(data);
-
-					console.log('\n * data 확인 2 (main.ejs) -> ');
-					console.log(data[0][0]);
-
-					for(var i = 0; i < data.length; i++) {
-=======
                     console.log('\n * data 확인(main.ejs) -> ');
 					console.log(data);
 					
-
+					if (data != 0) {
 					
                     for(var i = 0; i < data.length; i++) {
->>>>>>> a4f5e09a9f8b6e98e73e38dc447773e6435571cc
 
 						var year = new Date(data[i].sDate).getFullYear(); 
                     	var month = new Date(data[i].sDate).getMonth() + 1 ; 
@@ -176,31 +166,18 @@
 						        '<div class="d-flex align-items-center">' +
 									'<div class="d-flex flex-grow">' +
                                     	'<div class="mr-auto">' +
-<<<<<<< HEAD
-                                            '<h1 class="b-val">' + data[i][0].sName + '</h1>' + 
-                                    		'<p class="g-text mb-10">' + '스터디 일시 : ' + data[i][0].sDate + '</p>' + 
-=======
                                             '<h1 class="b-val">' + data[i].sName + '</h1>' + 
                                     		'<p class="g-text mb-10">' + '스터디 일시 : ' + year + '년 ' + month +'월 ' + day + '일' + '</p>' + 
->>>>>>> a4f5e09a9f8b6e98e73e38dc447773e6435571cc
 										'</div>'+
                                         '<div class="ml-auto align-self-end">' + 
-<<<<<<< HEAD
-                                            '<a href="/studyMain?sId=' + data[i][0].sId + '">바로가기</a>' +
-                                            /*
-											'<a href="/balance?fin_use_num=' + data[i].fintech_use_num + '">잔액조회</a>' + 
-                                            '<a href="/qrcode?fin_use_num=' + data[i].fintech_use_num + '">QR생성</a>' + 
-                                            */
-=======
                                             '<a href="/studyMain?sId=' + data[i].sId + '">바로가기</a>' +
->>>>>>> a4f5e09a9f8b6e98e73e38dc447773e6435571cc
 										'</div>'+
                                     '</div>'+
 								'</div>'+
                             '</div>'
                         )                        
                     }
-                }
+                }}
             })
         }
 
