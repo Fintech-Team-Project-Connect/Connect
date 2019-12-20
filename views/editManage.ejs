@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+   <title>Crypto Mobile Template</title>
+
+   <!-- Google font file. If you want you can change. -->
+   <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,900" rel="stylesheet">
+
+   <!-- Fontawesome font file css -->
+   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+
+   <!-- Animate css file for css3 animations. for more : https://daneden.github.io/animate.css -->
+   <!-- Only use animate action. If you dont use animation, you don't have to add.-->
+   <link rel="stylesheet" type="text/css" href="css/animate.css">
+   <link rel="stylesheet" type="text/css" href="css/cryptocoins.css">
+   <link rel="stylesheet" type="text/css" href="plugins/c3-chart/c3.css">
+
+   <!-- Template global css file. Requared all pages -->
+   <link rel="stylesheet" type="text/css" href="css/global.style.css">
+
+   <!-- Swiper slider css file -->
+   <link rel="stylesheet" href="css/swiper.min.css">
+
+   <!--turbo slider plugin css file -->
+   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="plugins/turbo-slider/turbo.css">
+
+</head>
+
+<body>
+   
+    <div class="wrapper ">
+		<div class="nav-menu">
+			<nav class="menu">
+			
+				<!-- Menu navigation start -->
+				<div class="nav-container">
+					<ul class="main-menu">
+						<li class="active">
+							<a href="main"><img src="img/content/icons/1.png" alt=""><strong class="special">나의 스터디</strong> </a>
+						</li>
+						<li class="">
+							<a href="myPenalty"><img src="img/content/icons/14.png" alt=""><strong class="special">내 벌점 내역</strong> </a>
+						</li>
+						<li class="">
+							<a href="editStudy"><img src="img/content/icons/11.png" alt=""><strong class="special">스터디 관리</strong> </a>
+						</li>
+					</ul>
+				</div>
+			<!-- Menu navigation end -->
+			</nav>
+		</div>
+		<div class="wrapper-inline">
+			<!-- Header area start -->
+			<header class="no-background"> <!-- extra class no-background -->
+				<div class="navi-menu-button">
+					<em></em>
+					<em></em>
+					<em></em>
+				</div>
+			</header>
+			<!-- Header area end -->
+
+            <!-- Page content start -->
+            <main class="margin mt-0">
+                <div class="dash-balance">
+                    <div class="dash-content relative">
+                        <h3 class="w-text" id = "study-title"></h3>
+                        <div class="notification">
+                            <a href="/createStudy" data-loader="show"><i class="fa fa-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="bal-section container" id="userList">
+                        <h4 class="title-main">참여 중인 스터디원 명단</h4>
+                </section>
+
+                <section class="container">
+                    <h4 class="title-main">스터디 날짜 및 시간</h4>
+                        <ul class="transaction-list list-unstyled">
+                            <li>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs" src="img/content/coin1.png" alt="coin image">
+                                        <div class="ml-10">
+                                            <h4 class="coin-name" id="sDate"></h4> 
+                                            <input class="coin-name" id="editDate" placeholder = "변경할 날짜"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                    <h4 class="title-main">스터디 비용(1인당)</h4>
+                        <ul class="transaction-list list-unstyled">
+                            <li>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs" src="img/content/coin2.png" alt="coin image">
+                                        <div class="ml-10">
+                                            <h4 class="coin-name" id="cost"></h4>
+                                            <input class="coin-name" id="editCost" placeholder = "변경할 금액"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    <h4 class="title-main">스터디카페 예약일</h4>
+                        <ul class="transaction-list list-unstyled">
+                            <li>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs" src="img/content/coin1.png" alt="coin image">
+                                        <div class="ml-10">
+                                            <h4 class="coin-name" id="cafeTrans"></h4>
+                                            <input class="coin-name" id="editCafe" placeholder = "변경할 날짜"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    <h4 class="title-main">출금 예정일</h4>
+                        <ul class="transaction-list list-unstyled">
+                            <li>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs" src="img/content/coin1.png" alt="coin image">
+                                        <div class="ml-10">
+                                            <h4 class="coin-name" id="indiTrans"></h4>
+                                            <input class="coin-name" id="editIndi" placeholder = "변경할 날짜"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                </section>
+
+                <div class="form-divider"></div>
+					<button id="okBtn" class="button circle block orange">변경사항 저장</button>
+					<div class="form-divider"></div>
+					<button id="cancelBtn" class="button circle block red">취소</button>
+					<div class="form-divider"></div>
+					<div class="form-divider"></div>
+					<div class="form-divider"></div>
+					</div>
+
+                <footer>
+                <div class="container">
+                    <ul>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                    </ul>
+                    <p>Copyright 짤 All Right Reserved</p>
+                </div>
+                </footer>
+            </main>
+            <!-- Page content end -->
+        </div>
+   </div>
+
+   <!--Page loader DOM Elements. Requared all pages-->
+   <div class="sweet-loader">
+      <div class="box">
+           <div class="circle1"></div>
+           <div class="circle2"></div>
+           <div class="circle3"></div>
+      </div>
+   </div>
+
+   <!-- JQuery library file. requared all pages -->
+   <script src="js/jquery-3.2.1.min.js"></script>
+
+   <!-- Swiper JS -->
+    <script src="js/swiper.min.js"></script>
+
+   <!-- Template global script file. requared all pages -->
+   <script src="js/app-charts.js"></script>
+   <script src="js/global.script.js"></script>
+   
+   <script>
+        var jwtToken = sessionStorage.getItem('jwtToken');
+        
+        // * 쿼리스트링
+        function getQueryStringObject() {
+            var a = window.location.search.substr(1).split('&');
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=', 2);
+                if (p.length == 1)
+                    b[p[0]] = "";
+                else
+                    b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+		}
+        var qs = getQueryStringObject();
+        var i = qs.sId - 1;
+        var a = 0;
+        console.log('\n* i 값 확인 -> ' + i + '\n* qs.sId 값 확인 -> ' + qs.sId);
+ 
+        function fetchPenaltyList() {
+            $.ajax({
+                url:'http://localhost:3000/manageList',
+                type : 'POST',
+                headers : {
+                    'x-access-token' : jwtToken
+                },
+                success:function(data) {
+
+                    console.log('\n * data 확인(main.ejs) -> ');
+                    console.log(data);
+
+                    $("#study-title").html(data[0].sName + " 스터디");
+                    $("#sDate").text(data[0].sDate);
+                    $("#cost").html(data[0].cost + "원");
+                    $("#cafeTrans").text(data[0].cafeTrans+'일');
+                    $("#indiTrans").text(data[0].indiTrans+'일');
+                    
+                }
+            })
+        }
+        fetchPenaltyList();
+
+        $("#okBtn").click(function() {
+            var editDate = $("editDate").val();
+            var editCost = $("editCost").val();
+            var editCafe = $("editCafe").val();
+            var editIndi = $("editIndi").val();
+            
+			$.ajax({
+				url:'http://localhost:3000/editManage',
+				type : 'POST',
+				headers: {
+					'x-access-token': sessionStorage.getItem('jwtToken')
+				},
+				data : {
+                    editDate : editDate,
+                    editCost : editCost,
+                    editCafe : editCafe,
+                    editIndi : editIndi
+				},
+				success : function(data) {
+					if(data == '업데이트 실패') {
+						alert("수정을 실패했습니다.");
+					}
+					else {
+						alert('수정을 완료하였습니다.');
+					}
+				}
+			})
+		})
+        $("#cancelBtn").click(function() {
+            window.location = '/manageStudy';
+        })
+        
+    </script>
+</body>
+</html>

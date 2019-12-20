@@ -35,15 +35,13 @@
 
 					<div class="ref-content">
 						<div class="form-row-group relative">
-							<div class="form-row no-padding">
-								<div class="form-divider"></div>
-								<input type="text" id="userId" width="150%" placeholder="사용자 아이디 입력">
-								<button id="findBtn" width="20%">찾기</button>
-								<div class="form-divider"></div>
-								<h5>* 스터디원 목록</h5>
-								<h4 id="userList" class="text-muted mt-0 mb-0"></h4>
-								<div class="form-divider"></div>
-							</div>
+                            <input type="text" id="pId" width="150%" placeholder="아이디">
+                            <div class="form-divider"></div>
+                            <input type="text" id="pDetail" width="150%" placeholder="사유">
+                            <div class="form-divider"></div>
+                            <input type="text" id="pAmount" width="150%" placeholder="벌금">
+                            <div class="form-divider"></div>
+                            <input type="text" id="pDate" width="150%" placeholder="날짜">
 						</div>
 					</div>
 				</div>
@@ -83,44 +81,58 @@
 	<script src="js/global.script.js"></script>
 	
 	<script>
-		var arr = [];
-		var i = 0;
-		$("#findBtn").click(function() {
-			var studyUser = $("#userId").val();
+        var jwtToken = sessionStorage.getItem('jwtToken');
 
-			console.log('\n* 검색할 스터디원 확인(in 개발자도구 콘솔창) -> ' + studyUser);
+        function getQueryStringObject() {
+            var a = window.location.search.substr(1).split('&');
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=', 2);
+                if (p.length == 1)
+                    b[p[0]] = "";
+                else
+                    b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+		}
+        var qs = getQueryStringObject();
+        console.log(qs.sId);
+
+		$("#okBtn").click(function() {
+            var sId = qs.sId;
+            var pId = $("#pId").val();
+            var pDetail = $("#pDetail").val();
+            var pAmount = $("#pAmount").val();
+            var pDate = $("#pDate").val();
 
 			$.ajax({
-				url:'http://localhost:3000/addUser',
+				url:'http://localhost:3000/addPenalty',
 				type : 'POST',
 				headers: {
 					'x-access-token': sessionStorage.getItem('jwtToken')
 				},
 				data : {
-					// request body 부분임
-					studyUser : studyUser
+                    sId : sId,
+                    pId : pId,
+                    pDetail : pDetail,
+                    pAmount : pAmount,
+                    pDate : pDate
 				},
 				success : function(data) {
-					if(data == '검색된 사용자 없음') {
-						alert("없는 ID 입니다.");
+					if(data == 'insert 성공') {
+						alert("등록 성공");
+						console.log(data);
+                        window.close()
+                        
 					}
 					else {
-						alert(studyUser + " 를 추가합니다.");
-						arr[i] = studyUser;
-						i++;
-						$("#userList").text(arr);
+						alert("벌점 등록 실패");
 					}
 				}
 			})
 		})
-	</script>
 	
-	<script langauge="javascript">
-		$("#okBtn").click(function() {
-			window.location = '/example';
-            alert("스터디원 추가 완료");
-            window.close() // 스터디 메인 화면으로 이동
-        })
         $("#cancelBtn").click(function() {
             window.close() // 스터디 메인 화면으로 이동
 		})
