@@ -133,7 +133,7 @@
 
                     console.log('\n * data 확인(main.ejs) -> ');
                     console.log(data);
-                    
+                    if (data != 0) {
                     for(var i = 0; i < data.length; i++) {
 
                         $("#manageList").append(
@@ -154,7 +154,7 @@
                             '</div>'
                         )                       
                     }
-                }
+                }}
             })
         }
         fetchManageList();

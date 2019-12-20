@@ -151,10 +151,17 @@
                 success:function(data) {
 
                     console.log('\n * data 확인(main.ejs) -> ');
+<<<<<<< HEAD
                console.log(data);
                
                if (data != 0) {
                
+=======
+					console.log(data);
+					
+					if (data != 0) {
+					
+>>>>>>> 7ea5c0e144409119c4c90a80f3dc1fc1952cccdf
                     for(var i = 0; i < data.length; i++) {
 
                   var year = new Date(data[i].sDate).getFullYear(); 
@@ -163,6 +170,7 @@
 
                         $("#cardList").append(                            
                             '<div class="balance-card mb-15">' +
+<<<<<<< HEAD
                           '<div class="d-flex align-items-center">' +
                            '<div class="d-flex flex-grow">' +
                                        '<div class="mr-auto">' +
@@ -172,6 +180,17 @@
                                         '<div class="ml-auto align-self-end">' + 
                                             '<a href="/studyMain?sId=' + data[i].sId + '">바로가기</a>' +
                               '</div>'+
+=======
+						        '<div class="d-flex align-items-center">' +
+									'<div class="d-flex flex-grow">' +
+                                    	'<div class="mr-auto">' +
+                                            '<h1 class="b-val">' + data[i].sName + '</h1>' + 
+                                    		'<p class="g-text mb-10">' + '스터디 일시 : ' + year + '년 ' + month +'월 ' + day + '일' + '</p>' + 
+										'</div>'+
+                                        '<div class="ml-auto align-self-end">' + 
+                                            '<a href="/studyMain?sId=' + data[i].sId + '">바로가기</a>' +
+										'</div>'+
+>>>>>>> 7ea5c0e144409119c4c90a80f3dc1fc1952cccdf
                                     '</div>'+
                         '</div>'+
                             '</div>'

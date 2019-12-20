@@ -327,8 +327,10 @@
                     console.log('\n * data 확인(main.ejs) -> ');
                     console.log(data);
                     
-                    for(var i = 0; i < data.length; i++) {
+                    if (data != 0) {
+                        for(var i = 0; i < data.length; i++) {
 
+<<<<<<< HEAD
                         $("#userList").append(
                     '<div class="expandable-item accordion" data-group="accordion1">' +
                         '<div class="expandable-header purp">' +
@@ -364,14 +366,52 @@
                                             '</div>' +
                                         '</li>' +
                                     '</ul>' +
+=======
+                            $("#userList").append(
+                            '<div class="expandable-item accordion" data-group="accordion1">' +
+                                '<div class="expandable-header purp">' +
+                                '<i class="cc ETH-alt"></i>' +
+                                '<h3 class="list-title" id = "studyUser">' + data[i].uName + '</h3>' +
+                                '<i class="list-arrow fa fa-angle-down"></i>' +
+>>>>>>> 7ea5c0e144409119c4c90a80f3dc1fc1952cccdf
                                 '</div>' +
+                            '<div class="expandable-content">' +
+                            '<div class="padding-content">' +
+                            '<h4>스터디원 내역</h4>' +
+                            '<div class="recent-trans">' +
+                            '<ul class="dropdown-menu-list list-unstyled no-mb">' +
+                            '<li>' +
+                                '<div class="notice-icon">' +
+                                '<i class="fa fa-institution"></i>' +
                             '</div>' +
-                        '</div>' +
-                    '</div>'
-                        )                       
-                    }
-                }
-            })
+                            '<div>' +
+                                '<span class="name">' +
+                                '<strong>벌금</strong>' +
+                                '<span class="time small">벌금 얼마</span>' +
+                                '</span>' +
+                            '</div>' +
+                            '</li>' +
+                            '<li>' +
+                            '<div class="notice-icon">' +
+                            '<i class="fa fa-institution"></i>' +
+                            '</div>' +
+                            '<div>' +
+                                '<span class="name">' +
+                                '<strong>전화번호</strong>' +
+                                '<span class="time small">' + data[i].uPhone + '</span>' +
+                                '</span>' +
+                            '</div>' +
+                            '</li>' +
+                        '</ul>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>'
+        )}
+    }
+                    
+}
+})
         }
         fetchUserList();
                 

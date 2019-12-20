@@ -16,8 +16,13 @@ var mysql      = require('mysql');
 var connection = mysql.createConnection({
     host     : '192.168.70.20', // database end-point
     port     : '3306',
+<<<<<<< HEAD
     user     : 'develop', // 접속할 db 계정
     password : '1q2w3e4r', // db 계정 비밀번호
+=======
+    user     : 'root', // 접속할 db 계정
+    password : 'zrzrzr24', // db 계정 비밀번호
+>>>>>>> 7ea5c0e144409119c4c90a80f3dc1fc1952cccdf
     database : 'connect' // 현재 사용할 데이터베이스
 });
 connection.connect();
@@ -36,11 +41,6 @@ app.use(express.urlencoded({extended:false}));
 
 /* View 라우터, 기능 라우터 구분 */
 
-// * 첫 화면
-app.get("/intro", function(req, res) {
-    res.render('intro')
-})
-
 // * 회원가입 창
 app.get("/signup", function(req, res) {
     res.render('signup')
@@ -51,9 +51,13 @@ app.get('/login', function (req, res) {
     res.render('login')
 })
 
-// * 스터디 개설자/참여자 선택 창
 app.get('/selectUser', function (req, res) {
     res.render('selectUser')
+})
+
+// * 스터디 개설자/참여자 선택 창
+app.get('/intro', function (req, res) {
+    res.render('intro')
 })
 
 // * 스터디 개설자 창
@@ -62,8 +66,8 @@ app.get('/createStudy', function (req, res) {
 })
 
 // * 스터디 참여자 창
-app.get('/joinStudy', function (req, res) {
-    res.render('joinStudy')
+app.get('/join', function (req, res) {
+    res.render('join')
 })
 
 // * 스터디 목록 창
