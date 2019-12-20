@@ -49,8 +49,8 @@
 						<li class="active">
 							<a href="javascript:void(0);"><img src="img/content/icons/9.png" alt=""><strong>Login/Register</strong> <span class="fa fa-angle-down"></span></a>
 							<ul>
-								<li><a href="login.html" data-loader="show">Login</a></li>
-								<li class="active"><a href="signup.html" data-loader="show">Register</a></li>
+								<li class="active"><a href="login.html" data-loader="show">Login</a></li>
+								<li><a href="signup.html" data-loader="show">Register</a></li>
 								<li><a href="forgot-password.html" data-loader="show">Forgot Password</a></li>
 							</ul>
 						</li>
@@ -98,7 +98,7 @@
 			<!-- Header area start -->
 			<header> <!-- extra class no-background -->
 				<a class="go-back-link" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
-				<h1 class="page-title">SIGN UP</h1>
+				<h1 class="page-title">Wanna Be a Host or Client?</h1>
 				<div class="navi-menu-button">
 					<em></em>
 					<em></em>
@@ -108,74 +108,53 @@
 			<!-- Header area end -->
 			<!-- Page content start -->
 			<main>
+			
 				<div class="container">
 					<div class="form-divider"></div>
+
 					<div class="form-divider"></div>
 					<div class="form-divider"></div>
-
-					<div class="form-row-group with-icons">
-						<div class="form-row no-padding">
-							<i class="fa fa-user"></i>
-							<input type="text" id="userId" class="form-element" placeholder="사용자 아이디" value="abc123">
-						</div>
-						<div class="form-row no-padding">
-							<i class="fa fa-lock"></i>
-							<input type="password" id="userPassword" class="form-element" placeholder="비밀번호" value="123456">
-						</div>
-						<div class="form-row no-padding">
-							<i class="fa fa-lock"></i>
-							<input type="text" id="userName" class="form-element" placeholder="이름" value="홍길동">
-						</div>
-						<div class="form-row no-padding">
-							<i class="fa fa-envelope"></i>
-							<input type="text" id="userAccount" class="form-element" placeholder="계좌번호" value="166-000000-000000">
-						</div>
-						<div class="form-row no-padding">
-							<i class="fa fa-envelope"></i>
-							<input type="text" id="userPhone" class="form-element" placeholder="휴대전화" value="010-1234-5678">
-						</div>
-						<div class="form-row no-padding">
-							<i class="fa fa-envelope"></i>
-							<input type="text" id="accessToken" class="form-element" placeholder="accessToken" value="">
-						</div>
-						<div class="form-row no-padding">
-							<i class="fa fa-envelope"></i>
-							<input type="text" id="refreshToken" class="form-element" placeholder="refreshToken" value="">
-						</div>
-						<div class="form-row no-padding">
-							<i class="fa fa-envelope"></i>
-							<input type="text" id="userSeqNo" class="form-element" placeholder="userSeqNo" value="">
-						</div>
-					</div>
-
 					<div class="form-divider"></div>
 					
-
-					<div class="form-row">
-						<table align="center">
-							<tr>
-								<td>
-									<button id="authBtn" href="#" class="button circle block red">&nbsp;&nbsp;&nbsp;&nbsp;인증하기&nbsp;&nbsp;&nbsp;&nbsp;</button>
-								</td>
-								<td>
-									&nbsp;&nbsp;&nbsp;&nbsp;
-								</td>
-								<td>
-									<button id="signupBtn" class="button circle block orange">&nbsp;&nbsp;&nbsp;&nbsp;회원가입&nbsp;&nbsp;&nbsp;&nbsp;</button>
-								</td>
-							</tr>
-						</table>
-					</div>
-
-					<div class="form-row txt-center mt-15">
-						Already have an account? <a href="/login" data-loader="show">Login</a>
-					</div>
+					<table align="center">
+						<tr>
+							<td>
+								<a href="/createStudy"><img src="img/content/studyHost.JPG" height="120"></a>
+							</td>
+							<td>
+								&nbsp;&nbsp;
+								<img src="img/content/onboard1.png" alt="" height="200">
+								&nbsp;&nbsp;
+							</td>
+							<td>
+								<a href="/joinStudy"><img src="img/content/studyClient.JPG" height="120" alt=""></a>
+							</td>
+						</tr>
+					</table>
 
 				</div>
 			</main>
 			<!-- Page content end -->
+
+			<div class="form-divider"></div>
+			<div class="form-divider"></div>
+			<div class="form-divider"></div>
+			<div class="form-divider"></div>
+
+			<footer>
+				<div class="container">
+					<ul>
+						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="#"><i class="fa fa-google"></i></a></li>
+						<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+					</ul>
+					<p>Copyright © All Right Reserved</p>
+				</div>
+			</footer>
 		</div>
 	</div>
+
 
 	<!--Page loader DOM Elements. Requared all pages-->
 	<div class="sweet-loader">
@@ -190,49 +169,27 @@
 	<script src="js/jquery-3.2.1.min.js"></script>
 
 	<!-- Template global script file. requared all pages -->
-    <script src="js/global.script.js"></script>
-    
-    <script>
-        $("#authBtn").click(function() {
-            var tmpWindow = window.open("about:blank");
-            tmpWindow.location = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?response_type=code&client_id=jiZLSQbk36kwtN0xPAaKXDkccUpEK2Tdsd55yD89&redirect_uri=http://localhost:3000/authResult&scope=login inquiry transfer&state=12345678901234567890123456789012&auth_type=0";
+	<script src="js/global.script.js"></script>
+
+	<script>
+        $("#createBtn").click(function() {
+            window.location = '/createStudy'
+        })
+        $("#joinBtn").click(function() {
+            window.location = '/join'
 		})
-		
-		$("#signupBtn").click(function() {
-			var id = $("#userId").val();
-			var password = $("#userPassword").val();
-			var name = $("#userName").val();
-			var account = $('#userAccount').val();
-			var phone = $("#userPhone").val();
-			var accessToken = $("#accessToken").val();
-			var refreshToken = $("#refreshToken").val();
-			var userSeqNo = $("#userSeqNo").val();
+        var jwtToken = sessionStorage.getItem('jwtToken')
+        fetchUserData();
+        function fetchUserData(){
+            $.ajax({
+                url:'http://localhost:3000/selectUser',
+                type : 'POST',
+                headers : {
+                    'x-access-token' : jwtToken
+                }
+            })
 
-			console.log('\n* 입력한 회원가입 정보 확인(in 개발자도구 콘솔창) -> ' + id, password, name, account, phone, accessToken, refreshToken, userSeqNo);
-
-			$.ajax({
-				url:'http://localhost:3000/user',
-				type : 'POST',
-				data : {
-					// request body 부분임
-					id : id,
-					password : password,
-					name : name,
-					account : account,
-					phone : phone,
-					accessToken : accessToken,
-					refreshToken : refreshToken,
-					userSeqNo : userSeqNo
-				},
-				success : function(data) {
-					if(data == '회원가입 성공') {
-						alert("가입 완료");
-					}
-
-					window.location = '/login' // 로그인 화면으로 이동
-				}
-			})
-		})
+        }
     </script>
 </body>
 

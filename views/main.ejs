@@ -297,10 +297,13 @@
                 },
                 success:function(data) {
 
-                    console.log('\n * data 확인(main.ejs) -> ');
-                    console.log(userId);
-                    
-                    for(var i = 0; i < data.length; i++) {
+					console.log('\n * data 확인 1 (main.ejs) -> ');
+					console.log(data);
+
+					console.log('\n * data 확인 2 (main.ejs) -> ');
+					console.log(data[0][0]);
+
+					for(var i = 0; i < data.length; i++) {
 
                         $("#cardList").append(                            
                             '<div class="balance-card mb-15">' +
@@ -308,12 +311,12 @@
 									'<div class="d-flex flex-grow">' +
 										
                                     	'<div class="mr-auto">' +
-                                            '<h1 class="b-val">' + data[i].sName + '</h1>' + 
-                                    		'<p class="g-text mb-10">' + '스터디 일시 : ' + data[i].sDate + '</p>' + 
+                                            '<h1 class="b-val">' + data[i][0].sName + '</h1>' + 
+                                    		'<p class="g-text mb-10">' + '스터디 일시 : ' + data[i][0].sDate + '</p>' + 
 										'</div>'+
 
                                         '<div class="ml-auto align-self-end">' + 
-                                            '<a href="/studyMain?sId=' + data[i].sId + '">바로가기</a>' +
+                                            '<a href="/studyMain?sId=' + data[i][0].sId + '">바로가기</a>' +
                                             /*
 											'<a href="/balance?fin_use_num=' + data[i].fintech_use_num + '">잔액조회</a>' + 
                                             '<a href="/qrcode?fin_use_num=' + data[i].fintech_use_num + '">QR생성</a>' + 

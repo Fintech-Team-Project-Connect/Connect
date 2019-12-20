@@ -533,15 +533,13 @@ div.container{
 	padding-left: 24px;
 }
 .form-element{
-	display: block;
-	width: 100%;
+	width: 70%;
 	border:none;
 	border-bottom: solid 1px #EEE;
 	height: 40px;
 	outline: none;
 	line-height: 40px;
 	background-color: #FFF;
-	
 }
 select.form-element{
 	-webkit-appearance: none;
@@ -629,6 +627,16 @@ select.form-element{
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
+}
+.button.kakao{
+	position: absolute;
+    right: -1px;
+    background: #F7E600;
+    width: 180px;
+    height: 50px;
+    color: #fff;
+	text-align: center;
+	line-height: 50px;
 }
 .button.red{
 	background-color: #d3514b;
@@ -2546,7 +2554,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1ddc3e', end
 [31. Content Styles]
 *------------------------------------------------------------------*/
 .dash-balance{
-	background: url(../img/content/dash-bg.jpg) no-repeat center center;
+	background: url(../img/content/b2-bg.png) no-repeat center center;
 	background-size: cover;
 	position: relative;
 	overflow: hidden;
@@ -2751,13 +2759,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1ddc3e', end
 }
 .ref-copy{
 	position: absolute;
-    right: -6px;
-    background: #00adf2;
-    width: 40px;
-    height: 40px;
+    right: -1px;
+    background: #F7E600;
+    width: 180px;
+    height: 39px;
     color: #fff;
-    text-align: center;
-    line-height: 40px;
+	text-align: center;
+    line-height: 50px;
 }
 .ref-statistics{
 	width: 49%;

@@ -112,8 +112,27 @@
 				<div class="container">
 					<div class="form-divider"></div>
 
+					<div class="form-row">
+						<table align="center">
+							<tr>
+								<td>
+									<a href="/login" class="button circle block blue"><i class="fa fa-facebook"></i> Sign up with FACEBOOK</a>
+								</td>
+								<td>
+									&nbsp;&nbsp;&nbsp;&nbsp;
+								</td>
+								<td>
+									<a href="/login" class="button circle block red"><i class="fa fa-google"></i> Sign up with GOOGLE</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+
+					
+					<div class="form-divider"></div>
 					<div class="form-divider"></div>
 					<div class="form-label-divider"><span>OR</span></div>
+					<div class="form-divider"></div>
 					<div class="form-divider"></div>
 
 					<div class="form-row-group with-icons">
@@ -134,8 +153,16 @@
 					<div class="form-divider"></div>
 
 					<div class="form-row">
-						<button type="button" id="loginBtn" class="button circle block orange">Login</a>
+						<table align="center">
+							<tr>
+								<td>
+									<button type="button" id="loginBtn" class="button circle block orange">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;로그인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+								</td>
+							</tr>
+						</table>
 					</div>
+					
+					<div class="form-divider"></div>
 
 					<div class="form-row txt-center mt-15">
 						Don't you have an account yet? <a href="/signup" data-loader="show">Sign Up</a>
@@ -186,7 +213,7 @@
                     console.log('* 로그인 성공\n* 토큰 값(in 개발자도구 콘솔창) -> ' + data);
                     sessionStorage.setItem('jwtToken', data); // [개발자 도구]-[Application]-[Session Storage]에 토큰 담긴 것 확인 가능
 					sessionStorage.setItem('userId', id);
-					window.location = '/intro' // 메인 화면으로 이동하도록                 
+					window.location = '/selectUser'             
 				}
 			})
         })

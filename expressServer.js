@@ -13,10 +13,10 @@ var port = process.env.PORT|| 3000;
 /* MySQL 연동 */
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
-    host     : '192.168.70.224', // database end-point
+    host     : 'localhost', // database end-point
     port     : '3306',
-    user     : 'develop', // 접속할 db 계정
-    password : '1q2w3e4r', // db 계정 비밀번호
+    user     : 'root', // 접속할 db 계정
+    password : 'root', // db 계정 비밀번호
     database : 'connect' // 현재 사용할 데이터베이스
 });
 connection.connect();
@@ -35,6 +35,11 @@ app.use(express.urlencoded({extended:false}));
 
 /* View 라우터, 기능 라우터 구분 */
 
+// * 첫 화면
+app.get("/intro", function(req, res) {
+    res.render('intro')
+})
+
 // * 회원가입 창
 app.get("/signup", function(req, res) {
     res.render('signup')
@@ -46,8 +51,8 @@ app.get('/login', function (req, res) {
 })
 
 // * 스터디 개설자/참여자 선택 창
-app.get('/intro', function (req, res) {
-    res.render('intro')
+app.get('/selectUser', function (req, res) {
+    res.render('selectUser')
 })
 
 // * 스터디 개설자 창
@@ -56,8 +61,8 @@ app.get('/createStudy', function (req, res) {
 })
 
 // * 스터디 참여자 창
-app.get('/join', function (req, res) {
-    res.render('join')
+app.get('/joinStudy', function (req, res) {
+    res.render('joinStudy')
 })
 
 // * 스터디 목록 창
@@ -188,32 +193,38 @@ app.post('/studyList', auth, function(req, res) {
 
     var uId = req.decoded.uId;
     var sql_1 = 'SELECT * FROM manage JOIN study ON manage.study_sId = study.sId WHERE manage.user_uId = ?;'
-    var sql_2 = 'SELECT * FROM cafe JOIN study ON cafe.cAccount = study.cafe_cAccount WHERE study.cafe_cAccount in '
+    var sql_2 = 'SELECT * FROM cafe JOIN study ON cafe.cAccount = study.cafe_cAccount WHERE sId = ? '
 
     connection.query(sql_1, [uId], function(error, results_1, fields) {
         if (error) throw error;
-        console.log('\n* sql_1 results_1 -> ')
-        console.log(results_1);
 
-        // sql_2은 in 구문을 사용
-        var inSQL = "";
+        var counter = 0;
+        var resList = [];
+
         for(var i = 0; i < results_1.length; i++) {
-            inSQL = inSQL + '\'' + results_1[i].cafe_cAccount + '\''
 
-            if(i != results_1.length - 1) {
-               inSQL = inSQL + ','
-            }
+            connection.query(sql_2, [results_1[i].sId], function(error, results_2, fields) {
+                if (error) {
+                    throw error
+                }
+                else {
+                    console.log(this.sql);
+
+                    resList.push(results_2);
+                    console.log(results_2);
+
+                    counter++;
+                    if(counter == results_1.length) {
+                        console.log('\n* resList 확인 -> ');
+                        console.log(resList);
+                        console.log('\n* resList[i] 확인 -> ');
+                        console.log(resList[0]);
+
+                        res.json(resList);
+                    }
+                }
+            });
         }
-        console.error('\n* inSQL -> ' + inSQL);
-        var resultSQL = '(' + inSQL + ')';
-        console.log('\n* (sql_2 + resultSQL) -> ' + (sql_2 + resultSQL));
-
-        connection.query(sql_2 + resultSQL, [], function(error, results_2, fields) {
-            if (error) throw error;
-            console.log('\n* sql_2 results_2 -> ')
-            console.log(results_2);
-            res.send(results_2);
-        });  
     });
 })
 

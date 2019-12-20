@@ -98,7 +98,7 @@
 			<!-- Header area start -->
 			<header> <!-- extra class no-background -->
 				<a class="go-back-link" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
-				<h1 class="page-title">JOIN</h1>
+				<h1 class="page-title">스터디 참여하기</h1>
 				<div class="navi-menu-button">
 					<em></em>
 					<em></em>
@@ -109,25 +109,55 @@
 			<!-- Page content start -->
 			<main>
 			
-				<div class="container">
-					<div class="form-divider"></div>
-					<div class="form-divider"></div>
-					<div class="form-divider"></div>
-                    <div class="form-divider"></div>
-                    <div class="form-divider"></div>
-					<div class="form-divider"></div>
-                    <div class="form-divider"></div>
-                    스터디 모임 링크 입력
-                    <form name="input_url">
-                        <input type="text" id="urlValue" value="" size="100%"> 
-                    </form>
-                    <div class="form-divider"></div>
-					<div class="form-row">
-                        <button type="button" id="enterBtn" class="button circle block yellow">입장하기</a>
-                    </div>
+				<div class="form-divider"></div>
+				<div class="form-divider"></div>
 
+				<section class="container refer mt-15">
+			    	<div id="cont">
+						
+					    <div id="content-body">
+					    	<div class="content-head purp">
+								<div class="d-flex align-items-center">
+								    <div class="d-flex flex-grow">
+								        <div class="mr-auto">
+								        	<h3 class="w-text mt-0 mb-0">스터디 모임 링크로 입장해주세요</h3>
+								            <p class="mb-0 g-text"></p>
+								        </div>
+								        <div class="ref-bouns">
+								            <h3 class="mt-0 mb-5">↓↓↓</h3>
+								            <span>아래 링크</span>
+								        </div>
+								    </div>
+								</div>
+							</div>
+							<div class="ref-content">
+								<h4 class="mt-0"></h4>
 
-				</div>
+								<div class="form-row-group with-icons" width="90%">
+									<center>
+									   <div class="form-row no-padding">
+										  <input type="text" id="urlValue" class="form-element" value="http://localhost:3000/main">
+										  
+										  	<div class="form-row">
+										  		<button type="button" id="enterBtn" class="button circle block kakao"><img src="img/content/kakaoLogo.png" alt="" height="30"></button>
+											</div>
+										</div>
+									</center>
+									
+								</div>
+
+								<div class="form-divider"></div>
+								<div class="form-divider"></div>
+								<div class="form-divider"></div>
+
+								<h4>Share Referal Link</h4>
+								<a href="#" class="button circle block orange"><i class="fa fa-facebook mr-10"></i> Facebook</a>
+								<a href="#" class="button circle block blue"><i class="fa fa-twitter mr-10"></i> Twitter</a>
+								<a href="#" class="button circle block red"><i class="fa fa-google-plus mr-10"></i> Google Plus</a>
+							</div>
+					    </div>
+					</div>
+			    </section>
 			</main>
 			<!-- Page content end -->
 		</div>
@@ -178,7 +208,7 @@
         fetchUserData();
         function fetchUserData(){
             $.ajax({
-                url:'http://localhost:3000/join',
+                url:'http://localhost:3000/joinStudy',
                 type : 'POST',
                 headers : {
                     'x-access-token' : jwtToken
