@@ -698,19 +698,25 @@ app.post('/addPenalty', auth, function(req, res) {
     var pDate = req.body.pDate;
     var date = new Date();
 
-    console.log (sId, pId);
+    console.log (req.body);
 
     var sql = "INSERT INTO penalty (sId, uId, pAmount, pDate, pDetail) VALUES(?, ?, ?, ?, ?);"
 
-    connection.query(sql, [sId, pId, pAmount, pDate, pDetail], function(error, results, fields) {
+    var ac = '0000-0000';
+    connection.query(sql, [sId, pId, pAmount, pDate, pDetail], function(error, results1, fields) {
         if (error) throw error;
+        console.log('result1 ->' + results1);
         res.json('insert 성공');
 
         var sql2 = "INSERT INTO cron (moneyFrom, moneyTo, cost, transfer, sDate) VALUES(?, ?, ?, ?, ?);"
-        connection.query(sql2, [pId, 'server', pAmount, 0, date], function(error, results, fields) {
+        connection.query(sql2, [pId, ac, pAmount, 0, date], function(error, results2, fields) {
             if (error) throw error;
-            res.json('insert 성공');
-        });
+            var sql3 = "UPDATE study SET sBalance = ? WHERE sId = ? ;"
+                connection.query(sql3, [pAmount, sId], function(error, results3, fields) {
+                    if (error) throw error;
+            
+                    });
+            });
     });
 
 });

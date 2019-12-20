@@ -79,7 +79,23 @@
                         <h4 class="title-main">참여 중인 스터디원 명단</h4>
                 </section>
 
+                
                 <section class="container">
+
+                    <h4 class="title-main">벌금</h4>
+                        <ul class="transaction-list list-unstyled">
+                            <li>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-xs" src="img/content/coin2.png" alt="coin image">
+                                        <div class="ml-10">
+                                            <h4 class="coin-name" id="sBalance"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
                     <h4 class="title-main">스터디 날짜 및 시간</h4>
                         <ul class="transaction-list list-unstyled">
                             <li>
@@ -107,6 +123,7 @@
                                 </div>
                             </li>
                         </ul>
+
                     <h4 class="title-main">스터디카페 예약일</h4>
                         <ul class="transaction-list list-unstyled">
                             <li>
@@ -224,7 +241,7 @@
                     console.log(a);
                     console.log(i);
 
-                    var cafeTrans ;
+                    var sBalance = data[a].sBalance;
                     var year = new Date(data[a].sDate).getFullYear(); 
                     var month = new Date(data[a].sDate).getMonth() + 1 ; 
                     var day = new Date(data[a].sDate).getDate();
@@ -237,6 +254,7 @@
                     $("#cost").html(data[a].cost + "원");
                     $("#cafeTrans").text(year + '년 '+month +'월 '+cafeTrans+'일');
                     $("#indiTrans").text(year + '년 '+month +'월 '+indiTrans+'일');
+                    $("#sBalance").text(sBalance + '원');
                 
                     // * 입금이체(스터디원1 ==> 우리App) 기능이 발생하는 function
                     function fetchDeposit() {
