@@ -5,10 +5,10 @@ var cron = require('node-cron');
 // * MySQL 연동
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
-    host     : '192.168.70.224', // database end-point
+    host     : 'localhost', // database end-point
     port     : '3306',
-    user     : 'develop', // 접속할 db 계정
-    password : '1q2w3e4r', // db 계정 비밀번호
+    user     : 'root', // 접속할 db 계정
+    password : 'root', // db 계정 비밀번호
     database : 'connect' // 현재 사용할 데이터베이스
 });
 connection.connect();
@@ -19,7 +19,7 @@ cron.schedule('*/5 * * * * *', () => {
     console.log('출금이체 대기 중입니다.');
 
     var sql = "SELECT * FROM connect.cron c JOIN connect.user u ON u.uId = c.moneyFrom WHERE transfer = ? AND sDate = ?";
-    connection.query(sql, [0, '2019-01-01'], function(error, results, fields) {
+    connection.query(sql, [0, '2019-12-25'], function(error, results, fields) {
    
         if (error)
             throw error;
@@ -82,10 +82,8 @@ cron.schedule('*/5 * * * * *', () => {
 
     var accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJUOTkxNTk5ODUwIiwic2NvcGUiOlsib29iIl0sImlzcyI6Imh0dHBzOi8vd3d3Lm9wZW5iYW5raW5nLm9yLmtyIiwiZXhwIjoxNTgzOTg5Mzc4LCJqdGkiOiJiMWQ0MDNkYS1kMTZlLTQ1ZDYtOTM0OC1mMjRmYTgxNmIwNDUifQ.WXaGocfB_wbvBZ2xs4HlSioXtyUBoX4L1iVeFprqRQU"
     var sql = "SELECT * FROM cron c JOIN study s ON c.moneyTo = s.cafe_cAccount WHERE c.transfer = ? AND s.sDate = ?;";
-    
-    
 
-    connection.query(sql, [0, '2019-11-11'], function(error, results, fields) {
+    connection.query(sql, [0, '2019-12-27'], function(error, results, fields) {
    
         if (error)
             throw error;
